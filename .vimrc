@@ -2,7 +2,10 @@ set nocompatible              " be iMproved, required
 filetype on                   " required
 filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
-"
+
+" Enables mouse
+set mouse=a
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 
