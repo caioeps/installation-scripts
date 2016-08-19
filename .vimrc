@@ -46,6 +46,10 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'Yggdroot/indentLine'
 " Emmet html
 Plugin 'mattn/emmet-vim'
+" Seti Theme
+Plugin 'trusktr/seti.vim'
+" Mutiple selection
+Plugin 'terryma/vim-multiple-cursors'
 call vundle#end()
 
 set ruler " show the cursor position all time
@@ -65,9 +69,10 @@ let g:indentLine_color_term = 239
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
-colorscheme molokai
+colorscheme seti
 set laststatus=2 " for airline to work
 
+" Tab / buffers
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
@@ -93,6 +98,12 @@ map <Leader>a :call RunAllSpecs()<CR>
 " CtrlP mappings
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+
+" Default mapping
+let g:multi_cursor_next_key='<C-d>'
+let g:multi_cursor_prev_key='<C-e>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
 
 " Delimit setting
 augroup mydelimitMate
