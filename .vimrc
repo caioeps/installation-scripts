@@ -100,8 +100,7 @@ set softtabstop=2
 set shiftwidth=2
 set autoindent
 set nowrap
-set textwidth=80
-
+set colorcolumn=80
 
 " Disable annoying sound
 set noerrorbells visualbell t_vb=
