@@ -1,8 +1,11 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
-
+filetype on                   " required
+filetype indent on    " Enable filetype-specific indenting
+filetype plugin on    " Enable filetype-specific plugins
+"
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+
 call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
@@ -10,6 +13,8 @@ Plugin 'gmarik/Vundle.vim'
 " NERDTree
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
+" Ruby
+Plugin 'vim-ruby/vim-ruby'
 " Rails
 Plugin 'tpope/vim-rails'
 " Automatically insert the closing HTML tag
@@ -33,6 +38,14 @@ Plugin 'tomasr/molokai'
 Plugin 'cakebaker/scss-syntax.vim'
 " Better fonts
 Plugin 'powerline/fonts'
+" JavaScript Syntax
+Plugin 'pangloss/vim-javascript'
+" Autocomplete
+Plugin 'Valloric/YouCompleteMe'
+" Indent lines
+Plugin 'Yggdroot/indentLine'
+" Emmet html
+Plugin 'mattn/emmet-vim'
 call vundle#end()
 
 set ruler " show the cursor position all time
@@ -48,6 +61,7 @@ let g:airline_powerline_fonts = 1
 set background=dark
 let g:solarized_termcolors=16
 let g:molokai_original = 1
+let g:indentLine_color_term = 239
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
@@ -107,3 +121,6 @@ set noerrorbells visualbell t_vb=
 if has('autocmd')
   autocmd GUIEnter * set visualbell t_vb=
 endif
+
+" Emmet config
+let g:user_emmet_leader_key='<tab>'
