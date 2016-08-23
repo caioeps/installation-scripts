@@ -3,6 +3,13 @@ filetype on                   " required
 filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 
+" backup to ~/.tmp 
+set backup 
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+set backupskip=/tmp/*,/private/tmp/* 
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+set writebackup
+
 " Enables mouse
 set mouse=a
 
@@ -42,7 +49,7 @@ Plugin 'cakebaker/scss-syntax.vim'
 " Better fonts
 Plugin 'powerline/fonts'
 " JavaScript Syntax
-Plugin 'pangloss/vim-javascript'
+"Plugin 'pangloss/vim-javascript'
 " Autocomplete
 Plugin 'Valloric/YouCompleteMe'
 " Indent lines
@@ -53,6 +60,8 @@ Plugin 'mattn/emmet-vim'
 Plugin 'trusktr/seti.vim'
 " Mutiple selection
 Plugin 'terryma/vim-multiple-cursors'
+" EasyGrep -> used for finding words in a project
+Plugin 'dkprice/vim-easygrep'
 call vundle#end()
 
 set ruler " show the cursor position all time
@@ -60,7 +69,8 @@ set ruler " show the cursor position all time
 " --------------------------------------------
 " APPEARANCE
 " --------------------------------------------
-set number " line numbers
+"set number " line numbers
+set relativenumber
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -74,6 +84,7 @@ if $COLORTERM == 'gnome-terminal'
 endif
 colorscheme seti
 set laststatus=2 " for airline to work
+let g:NERDTreeWinPos = "right" " NERDTree on right side
 
 " Tab / buffers
 let g:airline#extensions#tabline#buffer_idx_mode = 1
