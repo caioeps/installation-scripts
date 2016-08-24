@@ -50,6 +50,8 @@ Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'powerline/fonts'
 " JavaScript Syntax
 "Plugin 'pangloss/vim-javascript'
+" TypeScript
+Plugin 'leafgarland/typescript-vim'
 " Autocomplete
 Plugin 'Valloric/YouCompleteMe'
 " Indent lines
@@ -85,6 +87,9 @@ endif
 colorscheme seti
 set laststatus=2 " for airline to work
 let g:NERDTreeWinPos = "right" " NERDTree on right side
+
+" Set syntax modes
+autocmd BufNewFile,BufRead *.ts,*.tsx setlocal filetype=typescript " set typescript
 
 " Tab / buffers
 let g:airline#extensions#tabline#buffer_idx_mode = 1
