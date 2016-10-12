@@ -1,8 +1,4 @@
 set nocompatible              " be iMproved, required
-filetype on                   " required
-filetype indent on    " Enable filetype-specific indenting
-filetype plugin on    " Enable filetype-specific plugins
-
 " backup to ~/.tmp 
 set backup 
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
@@ -27,6 +23,11 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'vim-ruby/vim-ruby'
 " Rails
 Plugin 'tpope/vim-rails'
+" snippets 
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'scrooloose/snipmate-snippets'
 " Automatically insert the closing HTML tag
 Plugin 'HTML-AutoCloseTag'
 " Commenter
@@ -49,7 +50,9 @@ Plugin 'cakebaker/scss-syntax.vim'
 " Better fonts
 Plugin 'powerline/fonts'
 " JavaScript Syntax
-"Plugin 'pangloss/vim-javascript'
+Plugin 'pangloss/vim-javascript'
+" CoffeeScript
+Plugin 'kchmck/vim-coffee-script'
 " TypeScript
 Plugin 'leafgarland/typescript-vim'
 " Autocomplete
@@ -64,7 +67,21 @@ Plugin 'trusktr/seti.vim'
 Plugin 'terryma/vim-multiple-cursors'
 " EasyGrep -> used for finding words in a project
 Plugin 'dkprice/vim-easygrep'
+" Easy navigation through the file
+Plugin 'easymotion/vim-easymotion'
+" Rename files with :rename[!] {filename}
+Plugin 'danro/rename.vim'
+" Match opening and closing tags
+Plugin 'edsono/vim-matchit'
+" R plugin syntax
+Plugin 'vim-scripts/Vim-R-plugin'
 call vundle#end()
+
+filetype on                   " required
+syntax enable
+filetype indent on    " Enable filetype-specific indenting
+filetype plugin on    " Enable filetype-specific plugins
+filetype indent plugin on
 
 set ruler " show the cursor position all time
 
@@ -109,10 +126,10 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 map <C-\> :NERDTreeToggle<CR>
 
 " RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+"map <Leader>t :call RunCurrentSpecFile()<CR>
+"map <Leader>s :call RunNearestSpec()<CR>
+"map <Leader>l :call RunLastSpec()<CR>
+"map <Leader>a :call RunAllSpecs()<CR>
 
 " CtrlP mappings
 let g:ctrlp_map = '<c-p>'
@@ -154,3 +171,33 @@ endif
 
 " Emmet config
 let g:user_emmet_leader_key='<tab>'
+
+" snippets
+imap <C-/> <Plug>snipMateNextOrTrigger
+smap <C-/> <Plug>snipMateNextOrTrigger
+
+" paste toggle
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
+" Identation for filetypes
+" 2 spaces
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
+autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
+
+" 4 spaces
+autocmd Filetype javascript setlocal ts=4 sw=4 sts=0 expandtab
+autocmd Filetype coffee setlocal ts=4 sw=4 sts=0 expandtab
+autocmd Filetype jade setlocal ts=4 sw=4 sts=0 expandtab
+
+" Natural splits move
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+command Bd bp | sp | bn | bd
+
+" associate *.coffee with coffee filetype
+au BufRead,BufNewFile *.coffee setfiletype coffee
