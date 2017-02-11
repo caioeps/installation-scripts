@@ -1,9 +1,9 @@
 set nocompatible              " be iMproved, required
-" backup to ~/.tmp 
-set backup 
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
-set backupskip=/tmp/*,/private/tmp/* 
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+" backup to ~/.tmp
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
 
 " Enables mouse
@@ -23,6 +23,8 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'vim-ruby/vim-ruby'
 " Rails
 Plugin 'tpope/vim-rails'
+" slim template
+Plugin 'slim-template/vim-slim.git'
 " snippets 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
@@ -55,8 +57,6 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'kchmck/vim-coffee-script'
 " TypeScript
 Plugin 'leafgarland/typescript-vim'
-" Autocomplete
-Plugin 'Valloric/YouCompleteMe'
 " Indent lines
 Plugin 'Yggdroot/indentLine'
 " Emmet html
@@ -75,6 +75,8 @@ Plugin 'danro/rename.vim'
 Plugin 'edsono/vim-matchit'
 " R plugin syntax
 Plugin 'vim-scripts/Vim-R-plugin'
+" Autocomplete
+Plugin 'ervandew/supertab'
 call vundle#end()
 
 filetype on                   " required
@@ -201,3 +203,9 @@ command Bd bp | sp | bn | bd
 
 " associate *.coffee with coffee filetype
 au BufRead,BufNewFile *.coffee setfiletype coffee
+" associate *.slim with slim filetype
+au BufRead,BufNewFile *.slim setfiletype slim
+" associate *.js.erb with js filetype
+au BufRead,BufNewFile *.js.erb setfiletype js
+" associate *.css.erb with js filetype
+au BufRead,BufNewFile *.css.erb setfiletype css
