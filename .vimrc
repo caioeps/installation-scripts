@@ -300,14 +300,16 @@ command Bd bp | sp | bn | bd
 " +----------+
 " | FILETYPES|
 " +----------+
+" associate *.css.erb with css filetype
+au BufRead,BufNewFile *.css.erb setfiletype css
 " associate *.coffee with coffee filetype
 au BufRead,BufNewFile *.coffee setfiletype coffee
-" associate *.slim with slim filetype
-au BufRead,BufNewFile *.slim setfiletype slim
+" associate *.ex with elixir filetype
+au BufRead,BufNewFile *.ex setfiletype elixir
 " associate *.js.erb with js filetype
 au BufRead,BufNewFile *.js.erb setfiletype js
-" associate *.css.erb with js filetype
-au BufRead,BufNewFile *.css.erb setfiletype css
+" associate *.slim with slim filetype
+au BufRead,BufNewFile *.slim setfiletype slim
 
 " TypeScript syntax for .ts and .tsc files
 autocmd BufNewFile,BufRead *.ts,*.tsx setlocal filetype=typescript
