@@ -305,11 +305,12 @@ au BufRead,BufNewFile *.css.erb setfiletype css
 " associate *.coffee with coffee filetype
 au BufRead,BufNewFile *.coffee setfiletype coffee
 " associate *.ex with elixir filetype
-au BufRead,BufNewFile *.ex setfiletype elixir
+au BufRead,BufNewFile *.ex,*.exs set filetype=elixir
+au BufRead,BufNewFile *.eex set filetype=eelixir
 " associate *.js.erb with js filetype
 au BufRead,BufNewFile *.js.erb setfiletype js
 " associate *.slim with slim filetype
-au BufRead,BufNewFile *.slim setfiletype slim
+au BufRead,BufNewFile *.slim set filetype=slim
 
 " TypeScript syntax for .ts and .tsc files
 autocmd BufNewFile,BufRead *.ts,*.tsx setlocal filetype=typescript
