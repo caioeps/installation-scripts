@@ -68,10 +68,12 @@ Plugin 'gmarik/Vundle.vim'
   " Emmet html
   Plugin 'mattn/emmet-vim'
 " Javascript
-  " JavaScript Syntax
-  Plugin 'pangloss/vim-javascript'
   " CoffeeScript syntax
   Plugin 'kchmck/vim-coffee-script'
+  " Ionic syntax highlight
+  Plugin 'akz92/vim-ionic2'
+  " JavaScript Syntax
+  Plugin 'pangloss/vim-javascript'
   " TypeScript syntax
   Plugin 'leafgarland/typescript-vim'
 " Markdown
@@ -212,6 +214,8 @@ map <C-\> :NERDTreeToggle<CR>
 " CtrlP mappings
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp\|logs'
+let g:ctrlp_max_files = 0
 
 " MultipleCursors
 " Using Multiple Cursors
@@ -246,6 +250,7 @@ set softtabstop=2
 set shiftwidth=2
 set autoindent
 set nowrap
+set sidescroll=1
 " Highlight max line length
 set colorcolumn=90
 
@@ -259,7 +264,7 @@ if has('autocmd')
 endif
 
 " Emmet config
-let g:user_emmet_leader_key='<tab>'
+let g:user_emmet_leader_key='<C-y>'
 
 " snippets
 imap <C-/> <Plug>snipMateNextOrTrigger
