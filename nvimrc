@@ -5,6 +5,7 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
+set termguicolors
 " Show which mode we are in. (NORMAL VISUAL INSERT PASTE etc)
 set showmode
 
@@ -20,7 +21,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " Features
   " Autocomplete
-  Plugin 'ervandew/supertab'
+  Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Commenter
   Plugin 'scrooloose/nerdcommenter'
   " Delimitador
@@ -39,8 +40,6 @@ Plugin 'gmarik/Vundle.vim'
   " Matchit
   " Match opening and closing tags
   Plugin 'geoffharcourt/vim-matchit'
-  " Mutiple selection
-  Plugin 'terryma/vim-multiple-cursors'
   " NERDTree
   " Treeview of the project
   Plugin 'scrooloose/nerdtree'
@@ -74,8 +73,11 @@ Plugin 'gmarik/Vundle.vim'
   Plugin 'akz92/vim-ionic2'
   " JavaScript Syntax
   Plugin 'pangloss/vim-javascript'
+  " JSX syntax for React
+  Plugin 'maxmellon/vim-jsx-pretty'
   " TypeScript syntax
-  Plugin 'leafgarland/typescript-vim'
+  Plugin 'HerringtonDarkholme/yats.vim'
+  Plugin 'mhartington/nvim-typescript'
 " Markdown
   " Markdown syntax
   Plugin 'godlygeek/tabular'
@@ -99,6 +101,8 @@ Plugin 'gmarik/Vundle.vim'
   " Airline
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
+  " Gruvbox
+  Plugin 'morhetz/gruvbox'
   " Molokai
   Plugin 'tomasr/molokai'
   " Powerline fonts
@@ -189,7 +193,7 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 " Tell VIM what colorscheme to use
-colorscheme seti
+colorscheme gruvbox
 " for airline to work
 set laststatus=2
 
@@ -199,6 +203,7 @@ set laststatus=2
 " Select a folder and press "r" and it will be reloaded.
 " Tell NERDTree which side the treeview should be placed
 let g:NERDTreeWinPos = "left"
+let NERDTreeMapActivateNode='<space>'
 " NERDTree mappings
 map <C-\> :NERDTreeToggle<CR>
 
@@ -214,7 +219,7 @@ map <C-\> :NERDTreeToggle<CR>
 " CtrlP mappings
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp\|logs'
+let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|git|logs|node_modules|tmp|target|vendor)|(\.(beam|git|ico|svn|swp))$'
 let g:ctrlp_max_files = 0
 
 " MultipleCursors
@@ -239,6 +244,9 @@ augroup mydelimitMate
   au FileType python let b:delimitMate_nesting_quotes = ['"', "'"]
 augroup END
 
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+
 " +--------------+
 " | Text settings|
 " +--------------+
@@ -252,16 +260,11 @@ set autoindent
 set nowrap
 set sidescroll=1
 " Highlight max line length
-set colorcolumn=90
+set colorcolumn=80
 
 " Markdown no folding.
 let g:vim_markdown_folding_disabled = 1
 
-" Disable annoying sound
-set noerrorbells visualbell t_vb=
-if has('autocmd')
-  autocmd GUIEnter * set visualbell t_vb=
-endif
 
 " Emmet config
 let g:user_emmet_leader_key='<C-y>'
@@ -299,8 +302,17 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" Don't know wtf this is for
+" Using :Bd, instead of :bd, so we can safely close buffers without closing
+" vim.
 command Bd bp | sp | bn | bd
+
+" move line up / down with Alt + j / k
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " +----------+
 " | FILETYPES|
@@ -319,6 +331,8 @@ au BufRead,BufNewFile *.slim set filetype=slim
 
 " TypeScript syntax for .ts and .tsc files
 autocmd BufNewFile,BufRead *.ts,*.tsx setlocal filetype=typescript
+" associate *.json with text filetype
+autocmd BufNewFile,BufRead *.json setlocal filetype=javascript
 
 " Identation for filetypes
 " 2 spaces
@@ -326,7 +340,19 @@ autocmd Filetype html setlocal ts=2 sw=2 expandtab
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
 
 " 4 spaces
-autocmd Filetype javascript setlocal ts=4 sw=4 sts=0 expandtab
+autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab
 autocmd Filetype coffee setlocal ts=4 sw=4 sts=0 expandtab
-autocmd Filetype jade setlocal ts=4 sw=4 sts=0 expandtab
 
+" +--------------+
+" | Auto commands|
+" +--------------+
+"
+" Toggle hl off when entering insert mode ...
+autocmd InsertEnter * :setlocal nohlsearch
+" ... Toggle back on when leaving
+autocmd InsertLeave * :setlocal hlsearch
+" Disable annoying sound
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+  autocmd GUIEnter * set visualbell t_vb=
+endif
