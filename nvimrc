@@ -15,6 +15,9 @@ set mouse=a
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 
+" Set clipboard to the default
+set clipboard=unnamed
+
 call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
@@ -54,8 +57,13 @@ Plugin 'gmarik/Vundle.vim'
   " Rename
   " Rename files with :rename[!] {filename}
   Plugin 'danro/rename.vim'
+  " Testing
+  Plugin 'janko-m/vim-test'
 
 " Language plugins
+" Crystal
+  " Crystal Syntax
+  Plugin 'rhysd/vim-crystal'
 " Elixir
   " Elixir syntax
   Plugin 'elixir-lang/vim-elixir'
@@ -78,6 +86,8 @@ Plugin 'gmarik/Vundle.vim'
   " TypeScript syntax
   Plugin 'HerringtonDarkholme/yats.vim'
   Plugin 'mhartington/nvim-typescript'
+" Latex
+  Plugin 'lervag/vimtex'
 " Markdown
   " Markdown syntax
   Plugin 'godlygeek/tabular'
@@ -313,6 +323,21 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
+
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+
+" Disable arrow keys
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+inoremap <expr> <C-j> pumvisible() ? "\<C-j>" : "\<Tab>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-k>" : "\<S-Tab>"
 
 " +----------+
 " | FILETYPES|
