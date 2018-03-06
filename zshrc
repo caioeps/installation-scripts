@@ -91,8 +91,12 @@ if [ -f '/home/caioeps/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/caioeps/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/caioeps/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
-
-
-alias vim="nvim"
 alias g="git"
 alias gst="git status"
+alias gdiff="git diff"
+alias dco="docker-compose"
+alias openfolder="dde-file-manager"
+
+search_for() {
+  grep --exclude-dir={coverage,log,tmp,vendor} -R -n $1;
+}
