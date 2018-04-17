@@ -1,28 +1,7 @@
-set nocompatible              " be iMproved, required
-" backup to ~/.tmp
-set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set writebackup
-set termguicolors
-" Show which mode we are in. (NORMAL VISUAL INSERT PASTE etc)
-set showmode
-
-" Enables mouse
-set mouse=a
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-
-" Set clipboard to the default
-set clipboard=unnamed
+set rtp+=~/.vim/bundle/Vundle.vim                                              " set the runtime path to include Vundle and initialize
 
 call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
-" Features
+  Plugin 'gmarik/Vundle.vim'
   " Autocomplete
   Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Commenter
@@ -32,49 +11,36 @@ Plugin 'gmarik/Vundle.vim'
   " EasyGrep
   " Used for finding words in a project
   Plugin 'dkprice/vim-easygrep'
-  " Easymotion
   " Easy navigation through the file
   Plugin 'easymotion/vim-easymotion'
   " Indent lines
   Plugin 'Yggdroot/indentLine'
-  " CtrlP
-  " Finds file by using ctrl+p
+  " CtrlP - find files
   Plugin 'ctrlpvim/ctrlp.vim'
-  " Matchit
-  " Match opening and closing tags
+  " Matchit - opening and closing tags
   Plugin 'geoffharcourt/vim-matchit'
   " NERDTree
   " Treeview of the project
   Plugin 'scrooloose/nerdtree'
   Plugin 'jistr/vim-nerdtree-tabs'
-  " Snipmate
   " Provides snippets
   Plugin 'MarcWeber/vim-addon-mw-utils'
   Plugin 'tomtom/tlib_vim'
   Plugin 'garbas/vim-snipmate'
-    " Adds snippets for many languages
-    Plugin 'scrooloose/snipmate-snippets'
+  " Adds snippets for many languages
+  Plugin 'scrooloose/snipmate-snippets'
   " Rename
-  " Rename files with :rename[!] {filename}
   Plugin 'danro/rename.vim'
-  " Testing
-  Plugin 'janko-m/vim-test'
-
-" Language plugins
-" Crystal
   " Crystal Syntax
   Plugin 'rhysd/vim-crystal'
-" Elixir
   " Elixir syntax
   Plugin 'elixir-lang/vim-elixir'
   " Information about elixir project
   Plugin 'slashmili/alchemist.vim'
-" Html
   " Automatically insert the closing HTML tag
   Plugin 'HTML-AutoCloseTag'
   " Emmet html
   Plugin 'mattn/emmet-vim'
-" Javascript
   " CoffeeScript syntax
   Plugin 'kchmck/vim-coffee-script'
   " Ionic syntax highlight
@@ -86,97 +52,94 @@ Plugin 'gmarik/Vundle.vim'
   " TypeScript syntax
   Plugin 'HerringtonDarkholme/yats.vim'
   Plugin 'mhartington/nvim-typescript'
-" Latex
+  " Latex
   Plugin 'lervag/vimtex'
-" Markdown
   " Markdown syntax
   Plugin 'godlygeek/tabular'
   Plugin 'plasticboy/vim-markdown'
-" R
   " R syntax
   Plugin 'vim-scripts/Vim-R-plugin'
-" Ruby
   " Ruby syntax
   Plugin 'vim-ruby/vim-ruby'
   " Some tweaks for rails projects
   Plugin 'tpope/vim-rails'
-" SASS
   " SCSS syntax
   Plugin 'cakebaker/scss-syntax.vim'
-" Slim Template
   " Slim Template syntax
   Plugin 'slim-template/vim-slim.git'
-
-" Themes
+  " Git
+  Plugin 'tpope/vim-fugitive'
   " Airline
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
   " Gruvbox
   Plugin 'morhetz/gruvbox'
-  " Molokai
-  Plugin 'tomasr/molokai'
   " Powerline fonts
-  " Better fonts
   Plugin 'powerline/fonts'
-  " Seti Theme
-  Plugin 'trusktr/seti.vim'
-  " Solarized Theme
-  Plugin 'altercation/vim-colors-solarized'
-
-
-" Unused
-" Git
-  " Some commands to help with git.
-  "Plugin 'tpope/vim-fugitive'
 call vundle#end()
 
-" required
-filetype on
+" ================= Functions
+
+function! s:StripTrailingWhitespaces()
+  let l:l = line(".")
+  let l:c = col(".")
+  %s/\s\+$//e
+  call cursor(l:l, l:c)
+endfunction
+
+" ================= General
+
+set encoding=utf8                                                              " Set utf-8 encoding
+set fileencoding=utf-8                                                         " Set utf-8 encoding on write
+set nocompatible                                                               " Not compatible with Vi. Better results
+set history=500                                                                " Store lots of :cmdline history
+set termguicolors
+set showmode                                                                   " Show which mode we are in. (NORMAL VISUAL INSERT PASTE etc)
+set mouse=a                                                                    " Enables mouse
+set clipboard=unnamed                                                          " Set clipboard to the default
+set ruler                                                                      " Show the cursor position all time
+set relativenumber                                                             " Set relative line numbers
+set background=dark                                                            " Theme background color
+set expandtab                                                                  " Tab to spaces
+set tabstop=2                                                                  " Defaut indentation
+set softtabstop=2                                                              " This should always equals `tabstop` for proper indenting
+set shiftwidth=2                                                               " Controls how manu spaces >> and << use
+set autoindent
+set nowrap
+set colorcolumn=80                                                             " Highlight max line length
+set splitright                                                                 " Set up new splits positions
+set nofoldenable                                                               " Disable folding
+
+" Scrolling
+set sidescroll=5
+set scrolloff=8                                                                "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+
+" No backups nor swap files
+set noswapfile
+set nobackup
+set nowb
+
 syntax enable
-" Enable filetype-specific indenting
-filetype indent on
+
+filetype on
+
+filetype indent on                                                             " Enable filetype-specific indenting
 " Enable filetype-specific plugins
 filetype plugin on
 filetype indent plugin on
 
-" Show the cursor position all time
-set ruler
-" Set relative line numbers
-set relativenumber
+silent! colorscheme gruvbox
 
-" +----+
-" |FONT|
-" +----+
-" Set font
-if has("gui_running")
-  if has("gui_gtk2")
-    set guifont=Ubuntu\ Mono\ Regular\ 10
-  elseif has("gui_macvim")
-    set guifont=Menlo\ Regular:h14
-  elseif has("gui_win32")
-    set guifont=Consolas:h11:cANSI
-  endif
-endif
+" ================= Plugin Specific configuration
 
-" Tells Airline theme to use powerline style
-let g:airline_powerline_fonts = 1
-
-" +----+
-" |Tabs|
-" +----+
-" Using tabs:
-" "\1" changes to tab #1
-" "\2" changes to tab #1
-" etc...
-" "\-" changes to previous tab
-" "\+" changes to previous tab
-" ":Bd" closes current tab
-" Enable tabs
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-" Tab / buffers
-let g:airline#extensions#tabline#buffer_idx_mode = 1
+" Airline
+set laststatus=2                                                               " Always displays current file, so Airline works
+let g:airline_powerline_fonts = 1                                              " Tells Airline theme to use powerline style
+let g:airline#extensions#tabline#enabled = 1                                   " Enable tabline ext
+let g:airline#extensions#tabline#left_sep = ' '                                " Tabline left separator
+let g:airline#extensions#tabline#left_alt_sep = '|'                            " Tabline right separator
+let g:airline#extensions#tabline#buffer_idx_mode = 1                           " TODO Don't know
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -189,63 +152,27 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
 
-" +-----+
-" |THEME|
-" +-----+
-set background=dark
-let g:solarized_termcolors=16
-let g:molokai_original = 1
-let g:indentLine_color_term = 239
-"
-" If using gnome terminal, we'll be able to use 256 colors
-if $COLORTERM == 'gnome-terminal'
-  set t_Co=256
-endif
-
-" Tell VIM what colorscheme to use
-colorscheme gruvbox
-" for airline to work
-set laststatus=2
-
 " NERDTree
-" Using NERDTree
-" "Ctrl+\" toggles treeview.
-" Select a folder and press "r" and it will be reloaded.
-" Tell NERDTree which side the treeview should be placed
+map <C-\> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos = "left"
 let NERDTreeMapActivateNode='<space>'
-" NERDTree mappings
-map <C-\> :NERDTreeToggle<CR>
-
-" RSpec.vim mappings
-"map <Leader>t :call RunCurrentSpecFile()<CR>
-"map <Leader>s :call RunNearestSpec()<CR>
-"map <Leader>l :call RunLastSpec()<CR>
-"map <Leader>a :call RunAllSpecs()<CR>
+let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
+let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
+let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea']
+autocmd StdinReadPre * let s:std_in=1                                          " Open NERDTree when vim is opened without any specified file
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif    " Open NERDTree when vim is opened without any specified file
+" Find current file in NERDTree
+nnoremap <Leader>hf :NERDTreeFind<CR>
+" Open NERDTree
+nnoremap <Leader>n :NERDTreeToggle<CR>
 
 " ContrlP
-" Using CtrlP
-" "ctrl+p" will open a search box.
-" CtrlP mappings
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|git|logs|node_modules|tmp|target|vendor)|(\.(beam|git|ico|svn|swp))$'
 let g:ctrlp_max_files = 0
 
-" MultipleCursors
-" Using Multiple Cursors
-" Press "ctrl+d" to select whole word, then press it again to select the
-" next.
-" Press "ctrl+e" to select previous word.
-" Press "ctrl+x" to skip selection.
-" Default mapping
-let g:multi_cursor_next_key='<C-d>'
-let g:multi_cursor_prev_key='<C-e>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
-
 " Delimit
-" Delimit settings
 augroup mydelimitMate
   au!
   au FileType markdown let b:delimitMate_nesting_quotes = ["`"]
@@ -254,81 +181,37 @@ augroup mydelimitMate
   au FileType python let b:delimitMate_nesting_quotes = ['"', "'"]
 augroup END
 
-" Use deoplete.
+" Deoplete
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1                                           "Enable deoplete smartcase autocompletion
+let g:deoplete#max_list = 1000                                                 "Max autocompletion list
 
-" +--------------+
-" | Text settings|
-" +--------------+
-" Use spaces.
-set expandtab
-set smarttab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set autoindent
-set nowrap
-set sidescroll=1
-" Highlight max line length
-set colorcolumn=80
-
-" Markdown no folding.
-let g:vim_markdown_folding_disabled = 1
-
-
-" Emmet config
+" Emmet
 let g:user_emmet_leader_key='<C-y>'
+
+" Markdown
+let g:vim_markdown_folding_disabled = 1
 
 " snippets
 imap <C-/> <Plug>snipMateNextOrTrigger
 smap <C-/> <Plug>snipMateNextOrTrigger
 
-" Pasting content.
-" Some times you'll notice that pasting into your file you'll get unindented
-" content. To paste properly, you should press "F2" to enter in PASTE mode.
-" Just press it again to exit PASTE mode.
-" paste toggle
+" ================= Key mappings
+
+" F2 toggle PASTE mode.
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 
-" +-----+
-" |PANES|
-" +-----+
-" Using panes
-" Splitting horizontally:
-"   :split
-"   <ctrl+w> <s>
-" Splitting vertically:
-"   :vsplit
-"   <ctrl+w> <v>
-" Moving through panes:
-"   Ctrl+J move one pane down
-"   Ctrl+K move one pane up
-"   Ctrl+L move one pane right
-"   Ctrl+K move one pane left
-" Natural splits move
+" Go to pane below
 nnoremap <C-J> <C-W><C-J>
+" Go to pane above
 nnoremap <C-K> <C-W><C-K>
+" Go to pane to the right
 nnoremap <C-L> <C-W><C-L>
+" Go to pane to the left
 nnoremap <C-H> <C-W><C-H>
 
-" Using :Bd, instead of :bd, so we can safely close buffers without closing
-" vim.
-command Bd bp | sp | bn | bd
-
-" move line up / down with Alt + j / k
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
-
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
+command Bd bp | sp | bn | bd                                                   " Bd safely closes buffer w/o closing Vim.
 
 " Disable arrow keys
 noremap <Up> <NOP>
@@ -336,48 +219,75 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-inoremap <expr> <C-j> pumvisible() ? "\<C-j>" : "\<Tab>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-k>" : "\<S-Tab>"
+" Use C-j and C-k to navigate deoplete suggestions
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 
-" +----------+
-" | FILETYPES|
-" +----------+
-" associate *.css.erb with css filetype
-au BufRead,BufNewFile *.css.erb setfiletype css
-" associate *.coffee with coffee filetype
-au BufRead,BufNewFile *.coffee setfiletype coffee
-" associate *.ex with elixir filetype
-au BufRead,BufNewFile *.ex,*.exs set filetype=elixir
-au BufRead,BufNewFile *.eex set filetype=eelixir
-" associate *.js.erb with js filetype
-au BufRead,BufNewFile *.js.erb setfiletype js
-" associate *.slim with slim filetype
-au BufRead,BufNewFile *.slim set filetype=slim
+cnoreabbrev Wq wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev bD bd
 
-" TypeScript syntax for .ts and .tsc files
-autocmd BufNewFile,BufRead *.ts,*.tsx setlocal filetype=typescript
-" associate *.json with text filetype
-autocmd BufNewFile,BufRead *.json setlocal filetype=javascript
+" Git
+nnoremap gst :Gstatus<CR>
+nnoremap gdiff :Gdiff<CR>
+nnoremap gb :Gblame<CR>
+vnoremap gb :Gblame<CR>
 
-" Identation for filetypes
-" 2 spaces
+" Save and quit
+nnoremap <Leader>qq :q<CR>
+nnoremap <Leader>wq :wq<CR>
+
+" Better movement
+nnoremap H 0
+nnoremap L $
+
+" Copy to system clipboard
+vnoremap <Leader>c "+y
+
+" Move to the end of yanked text after yank and paste
+nnoremap p p`]
+vnoremap y y`]
+vnoremap p p`]
+
+" Toggle between last 2 buffers
+nnoremap <leader>l <c-^>
+
+" ================= Filetype specific configs
+
+" CSS
+autocmd BufRead,BufNewFile *.css.erb setfiletype css
+
+" Elixir
+autocmd BufRead,BufNewFile *.ex,*.exs set filetype=elixir
+autocmd BufRead,BufNewFile *.eex set filetype=eelixir
+
+" Html
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
+
+" Javascript
+autocmd Filetype javascript           setlocal ts=2 sw=2 sts=0 expandtab
+autocmd Filetype typescript           setlocal ts=4 sw=4 sts=0 expandtab
+autocmd Filetype coffee               setlocal ts=4 sw=4 sts=0 expandtab
+autocmd BufRead,BufNewFile *.coffee   setlocal filetype=coffee
+autocmd BufRead,BufNewFile *.js.erb   setlocal filetype=javascript
+autocmd BufRead,BufNewFile *.ts,*.tsx setlocal filetype=typescript
+autocmd BufRead,BufNewFile *.json     setlocal filetype=javascript
+autocmd BufRead,BufNewFile *.jsx      setlocal filetype=typescript
+
+" Slim
+autocmd BufRead,BufNewFile *.slim set filetype=slim
+
+" Ruby
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
 
-" 4 spaces
-autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab
-autocmd Filetype coffee setlocal ts=4 sw=4 sts=0 expandtab
-
-" +--------------+
-" | Auto commands|
-" +--------------+
-"
-" Toggle hl off when entering insert mode ...
-autocmd InsertEnter * :setlocal nohlsearch
-" ... Toggle back on when leaving
-autocmd InsertLeave * :setlocal hlsearch
-" Disable annoying sound
-set noerrorbells visualbell t_vb=
+" ================= Autocommands
+autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()                 " Auto-remove trailing spaces
+autocmd InsertEnter * :setlocal nohlsearch                                     " Toggle highlight off when entering insert mode
+autocmd InsertLeave * :setlocal hlsearch                                       " Toggle highlight back on when leaving insert mode
+set noerrorbells visualbell t_vb=                                              " Disable annoying sound
 if has('autocmd')
   autocmd GUIEnter * set visualbell t_vb=
 endif
+
