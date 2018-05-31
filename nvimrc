@@ -8,7 +8,7 @@ call vundle#begin()
   Plugin 'scrooloose/nerdcommenter'
   " Delimitador
   Plugin 'Raimondi/delimitMate'
-  " EasyGrep
+  Plugin 'SirVer/ultisnips'                                                    " Snippets
   " Used for finding words in a project
   Plugin 'dkprice/vim-easygrep'
   " Easy navigation through the file
@@ -31,6 +31,8 @@ call vundle#begin()
   Plugin 'scrooloose/snipmate-snippets'
   " Rename
   Plugin 'danro/rename.vim'
+  " Surrounding quotes, brackets etc
+  Plugin 'tpope/vim-surround'
   " Crystal Syntax
   Plugin 'rhysd/vim-crystal'
   " Elixir syntax
@@ -45,37 +47,29 @@ call vundle#begin()
   Plugin 'kchmck/vim-coffee-script'
   " Ionic syntax highlight
   Plugin 'akz92/vim-ionic2'
-  " JavaScript Syntax
-  Plugin 'pangloss/vim-javascript'
-  " JSX syntax for React
-  Plugin 'maxmellon/vim-jsx-pretty'
-  " TypeScript syntax
+
+  Plugin 'pangloss/vim-javascript'                                             " JavaScript Syntax
+  Plugin 'heavenshell/vim-jsdoc'                                               " JSdoc
+  Plugin 'maxmellon/vim-jsx-pretty'                                            " JSX syntax for React
+  Plugin 'epilande/vim-react-snippets'                                         " React snippets
   Plugin 'HerringtonDarkholme/yats.vim'
-  Plugin 'mhartington/nvim-typescript'
-  " Latex
-  Plugin 'lervag/vimtex'
-  " Markdown syntax
+  Plugin 'mhartington/nvim-typescript'                                         " TypeScript syntax
+  Plugin 'lervag/vimtex'                                                       " Latex
   Plugin 'godlygeek/tabular'
-  Plugin 'plasticboy/vim-markdown'
-  " R syntax
-  Plugin 'vim-scripts/Vim-R-plugin'
-  " Ruby syntax
-  Plugin 'vim-ruby/vim-ruby'
-  " Some tweaks for rails projects
-  Plugin 'tpope/vim-rails'
-  " SCSS syntax
-  Plugin 'cakebaker/scss-syntax.vim'
-  " Slim Template syntax
-  Plugin 'slim-template/vim-slim.git'
-  " Git
-  Plugin 'tpope/vim-fugitive'
-  " Airline
+  Plugin 'plasticboy/vim-markdown'                                             " Markdown syntax
+  Plugin 'vim-scripts/Vim-R-plugin'                                            " R syntax
+  Plugin 'vim-ruby/vim-ruby'                                                   " Ruby syntax
+  Plugin 'joker1007/vim-ruby-heredoc-syntax'                                   " HEREDOC syntax
+  Plugin 'tpope/vim-rails'                                                     " Some tweaks for rails projects
+  Plugin 'cakebaker/scss-syntax.vim'                                           " SCSS syntax
+  Plugin 'slim-template/vim-slim.git'                                          " Slim Template syntax
+  Plugin 'tpope/vim-fugitive'                                                  " Git
+  Plugin 'tpope/vim-rhubarb'                                                   " Open files in Github
   Plugin 'vim-airline/vim-airline'
-  Plugin 'vim-airline/vim-airline-themes'
-  " Gruvbox
-  Plugin 'morhetz/gruvbox'
-  " Powerline fonts
-  Plugin 'powerline/fonts'
+  Plugin 'vim-airline/vim-airline-themes'                                      " Airline
+  Plugin 'morhetz/gruvbox'                                                     " Gruvbox
+  Plugin 'powerline/fonts'                                                     " Powerline fonts
+  Plugin 'w0rp/ale'                                                            " Linter
 call vundle#end()
 
 " ================= Functions
@@ -106,14 +100,14 @@ set softtabstop=2                                                              "
 set shiftwidth=2                                                               " Controls how manu spaces >> and << use
 set autoindent
 set nowrap
-set colorcolumn=80                                                             " Highlight max line length
+set colorcolumn=79                                                             " Highlight max line length
 set splitright                                                                 " Set up new splits positions
 set nofoldenable                                                               " Disable folding
 
 " Scrolling
 set sidescroll=5
 set scrolloff=8                                                                "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=15
+set sidescrolloff=5
 
 " No backups nor swap files
 set noswapfile
@@ -152,6 +146,14 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
 
+" ALE
+let g:ale_linters = {'javascript': ['eslint']}                                 "Lint js with eslint
+let g:ale_lint_on_save = 1                                                     "Lint when saving a file
+let g:ale_sign_error = '✘'                                                     "Lint error sign
+let g:ale_sign_warning = '⚠️'                                                   "Lint warning sign
+highlight ALEErrorSign ctermbg=NONE ctermfg=red
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+
 " NERDTree
 map <C-\> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos = "left"
@@ -159,8 +161,8 @@ let NERDTreeMapActivateNode='<space>'
 let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
 let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
 let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea']
-autocmd StdinReadPre * let s:std_in=1                                          " Open NERDTree when vim is opened without any specified file
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif    " Open NERDTree when vim is opened without any specified file
+"autocmd StdinReadPre * let s:std_in=1                                          " Open NERDTree when vim is opened without any specified file
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif    " Open NERDTree when vim is opened without any specified file
 " Find current file in NERDTree
 nnoremap <Leader>hf :NERDTreeFind<CR>
 " Open NERDTree
@@ -182,12 +184,19 @@ augroup mydelimitMate
 augroup END
 
 " Deoplete
+let g:python_host_prog  = '/home/caio/.asdf/shims/python'
+let g:python3_host_prog = '/home/caio/.asdf/shims/python3'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1                                           "Enable deoplete smartcase autocompletion
-let g:deoplete#max_list = 1000                                                 "Max autocompletion list
+let g:deoplete#max_list = 20                                                   "Max autocompletion list
 
 " Emmet
 let g:user_emmet_leader_key='<C-y>'
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1
@@ -228,6 +237,7 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev bD bd
+cnoreabbrev E e
 
 " Git
 nnoremap gst :Gstatus<CR>
@@ -274,7 +284,7 @@ autocmd BufRead,BufNewFile *.coffee   setlocal filetype=coffee
 autocmd BufRead,BufNewFile *.js.erb   setlocal filetype=javascript
 autocmd BufRead,BufNewFile *.ts,*.tsx setlocal filetype=typescript
 autocmd BufRead,BufNewFile *.json     setlocal filetype=javascript
-autocmd BufRead,BufNewFile *.jsx      setlocal filetype=typescript
+autocmd BufRead,BufNewFile *.jsx      setlocal filetype=javascript
 
 " Slim
 autocmd BufRead,BufNewFile *.slim set filetype=slim
@@ -283,7 +293,7 @@ autocmd BufRead,BufNewFile *.slim set filetype=slim
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
 
 " ================= Autocommands
-autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()                 " Auto-remove trailing spaces
+autocmd BufWritePre * :call s:StripTrailingWhitespaces()                  " Auto-remove trailing spaces
 autocmd InsertEnter * :setlocal nohlsearch                                     " Toggle highlight off when entering insert mode
 autocmd InsertLeave * :setlocal hlsearch                                       " Toggle highlight back on when leaving insert mode
 set noerrorbells visualbell t_vb=                                              " Disable annoying sound
