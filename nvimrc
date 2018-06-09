@@ -52,6 +52,7 @@ call vundle#begin()
   Plugin 'heavenshell/vim-jsdoc'                                               " JSdoc
   Plugin 'maxmellon/vim-jsx-pretty'                                            " JSX syntax for React
   Plugin 'epilande/vim-react-snippets'                                         " React snippets
+  Plugin 'joaohkfaria/vim-jest-snippets'                                       " Jest snippets
   Plugin 'HerringtonDarkholme/yats.vim'
   Plugin 'mhartington/nvim-typescript'                                         " TypeScript syntax
   Plugin 'lervag/vimtex'                                                       " Latex
@@ -70,6 +71,7 @@ call vundle#begin()
   Plugin 'morhetz/gruvbox'                                                     " Gruvbox
   Plugin 'powerline/fonts'                                                     " Powerline fonts
   Plugin 'w0rp/ale'                                                            " Linter
+  Plugin 'rking/ag.vim'                                                        " The Silver Searcher
 call vundle#end()
 
 " ================= Functions
@@ -90,7 +92,7 @@ set history=500                                                                "
 set termguicolors
 set showmode                                                                   " Show which mode we are in. (NORMAL VISUAL INSERT PASTE etc)
 set mouse=a                                                                    " Enables mouse
-set clipboard=unnamed                                                          " Set clipboard to the default
+set clipboard=unnamedplus                                                      " set clipboard to the default
 set ruler                                                                      " Show the cursor position all time
 set relativenumber                                                             " Set relative line numbers
 set background=dark                                                            " Theme background color
@@ -129,6 +131,7 @@ silent! colorscheme gruvbox
 
 " Airline
 set laststatus=2                                                               " Always displays current file, so Airline works
+let g:airline_section_b = ''                                                   " hide VCS from Airline
 let g:airline_powerline_fonts = 1                                              " Tells Airline theme to use powerline style
 let g:airline#extensions#tabline#enabled = 1                                   " Enable tabline ext
 let g:airline#extensions#tabline#left_sep = ' '                                " Tabline left separator
