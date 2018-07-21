@@ -92,7 +92,6 @@ set history=500                                                                "
 set termguicolors
 set showmode                                                                   " Show which mode we are in. (NORMAL VISUAL INSERT PASTE etc)
 set mouse=a                                                                    " Enables mouse
-set clipboard=unnamedplus                                                      " set clipboard to the default
 set ruler                                                                      " Show the cursor position all time
 set relativenumber                                                             " Set relative line numbers
 set background=dark                                                            " Theme background color
@@ -107,9 +106,9 @@ set splitright                                                                 "
 set nofoldenable                                                               " Disable folding
 
 " Scrolling
-set sidescroll=5
-set scrolloff=8                                                                "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=5
+set sidescroll=3
+set sidescrolloff=3
+set scrolloff=2                                                                "Start scrolling when we're 2 lines away from margins
 
 " No backups nor swap files
 set noswapfile
@@ -156,6 +155,21 @@ let g:ale_sign_error = '✘'                                                    
 let g:ale_sign_warning = '⚠️'                                                   "Lint warning sign
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+
+" Deoplete
+set previewheight=5
+set wildmode=list:full
+set wildignore=*.o,*.obj,*~                                                     "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*cache*
+set wildignore+=*logs*
+set wildignore+=*node_modules/**
+set wildignore+=*DS_Store*
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
 
 " NERDTree
 map <C-\> :NERDTreeToggle<CR>
@@ -252,10 +266,6 @@ vnoremap gb :Gblame<CR>
 nnoremap <Leader>qq :q<CR>
 nnoremap <Leader>wq :wq<CR>
 
-" Better movement
-nnoremap H 0
-nnoremap L $
-
 " Copy to system clipboard
 vnoremap <Leader>c "+y
 
@@ -266,6 +276,10 @@ vnoremap p p`]
 
 " Toggle between last 2 buffers
 nnoremap <leader>l <c-^>
+
+" Also save with Ctrl+s
+map <C-s> :w<CR>
+imap <C-s> <C-o>:w<CR>
 
 " ================= Filetype specific configs
 
