@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/caioeps/.oh-my-zsh
+  export ZSH=/home/caio/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -85,18 +85,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/caioeps/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/home/caioeps/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/caioeps/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/caioeps/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
 alias g="git"
 alias gst="git status"
 alias gdiff="git diff"
 alias dco="docker-compose"
 alias openfolder="dde-file-manager"
-
-search_for() {
-  grep --exclude-dir={coverage,log,tmp,vendor} -R -n $1;
-}
