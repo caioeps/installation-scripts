@@ -178,6 +178,9 @@ let NERDTreeMapActivateNode='<space>'
 let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
 let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
 let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea']
+let NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
 "autocmd StdinReadPre * let s:std_in=1                                          " Open NERDTree when vim is opened without any specified file
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif    " Open NERDTree when vim is opened without any specified file
 " Find current file in NERDTree
@@ -227,6 +230,8 @@ smap <C-/> <Plug>snipMateNextOrTrigger
 " F2 toggle PASTE mode.
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
+
+:nmap , <leader>
 
 " Go to pane below
 nnoremap <C-J> <C-W><C-J>
