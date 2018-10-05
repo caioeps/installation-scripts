@@ -72,6 +72,8 @@ call vundle#begin()
   Plugin 'powerline/fonts'                                                     " Powerline fonts
   Plugin 'w0rp/ale'                                                            " Linter
   Plugin 'rking/ag.vim'                                                        " The Silver Searcher
+  Plugin 'majutsushi/tagbar'
+  Plugin 'rlue/vim-fold-rspec'
 call vundle#end()
 
 " ================= Functions
@@ -191,7 +193,7 @@ nnoremap <Leader>n :NERDTreeToggle<CR>
 " ContrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|git|logs|node_modules|tmp|target|vendor)|(\.(beam|git|ico|svn|swp))$'
+let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|git|logs|node_modules|tmp|target|vendor)|(\.(beam|git|ico|snap|svn|swp))$'
 let g:ctrlp_max_files = 0
 
 " Delimit
@@ -204,8 +206,8 @@ augroup mydelimitMate
 augroup END
 
 " Deoplete
-let g:python_host_prog  = '/home/caio/.asdf/shims/python'
-let g:python3_host_prog = '/home/caio/.asdf/shims/python3'
+let g:python_host_prog  = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1                                           "Enable deoplete smartcase autocompletion
 let g:deoplete#max_list = 20                                                   "Max autocompletion list
@@ -220,6 +222,9 @@ let g:user_emmet_settings = {
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1
+
+" Tagbar
+nmap <F8> :TagbarToggle<CR>
 
 " snippets
 imap <C-/> <Plug>snipMateNextOrTrigger
@@ -285,6 +290,10 @@ nnoremap <leader>l <c-^>
 " Also save with Ctrl+s
 map <C-s> :w<CR>
 imap <C-s> <C-o>:w<CR>
+
+" Also save wit Leader + s
+map <Leader>s :w<CR>
+imap <Leader>s <C-o>:w<CR>
 
 " ================= Filetype specific configs
 
