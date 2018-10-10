@@ -74,6 +74,9 @@ call vundle#begin()
   Plugin 'rking/ag.vim'                                                        " The Silver Searcher
   Plugin 'majutsushi/tagbar'
   Plugin 'rlue/vim-fold-rspec'
+  Plugin 'wesQ3/vim-windowswap'                                                " Swap panes easily with <leader>ww
+  Plugin 'neoclide/tern-neovim', {'do': 'npm install && npm install -g tern'}  " Ternjs for javascript
+  Plugin 'ludovicchabant/vim-gutentags'                                        " Handle tag generation
 call vundle#end()
 
 " ================= Functions
@@ -195,6 +198,7 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|git|logs|node_modules|tmp|target|vendor)|(\.(beam|git|ico|snap|svn|swp))$'
 let g:ctrlp_max_files = 0
+let g:ctrlp_show_hidden = 1
 
 " Delimit
 augroup mydelimitMate
@@ -248,6 +252,8 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 command Bd bp | sp | bn | bd                                                   " Bd safely closes buffer w/o closing Vim.
+command Qq Bd
+command Qqq bufdo Bd
 
 " Disable arrow keys
 noremap <Up> <NOP>
