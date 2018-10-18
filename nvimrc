@@ -68,7 +68,7 @@ call vundle#begin()
   Plugin 'tpope/vim-rhubarb'                                                   " Open files in Github
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'                                      " Airline
-  Plugin 'morhetz/gruvbox'                                                     " Gruvbox
+  Plugin 'morhetz/gruvbox'                                                     " Gruvbox theme
   Plugin 'powerline/fonts'                                                     " Powerline fonts
   Plugin 'w0rp/ale'                                                            " Linter
   Plugin 'rking/ag.vim'                                                        " The Silver Searcher
@@ -77,6 +77,7 @@ call vundle#begin()
   Plugin 'wesQ3/vim-windowswap'                                                " Swap panes easily with <leader>ww
   Plugin 'neoclide/tern-neovim', {'do': 'npm install && npm install -g tern'}  " Ternjs for javascript
   Plugin 'ludovicchabant/vim-gutentags'                                        " Handle tag generation
+  Plugin 'digitaltoad/vim-pug'
 call vundle#end()
 
 " ================= Functions
@@ -90,6 +91,7 @@ endfunction
 
 " ================= General
 
+set title
 set encoding=utf8                                                              " Set utf-8 encoding
 set fileencoding=utf-8                                                         " Set utf-8 encoding on write
 set nocompatible                                                               " Not compatible with Vi. Better results
@@ -99,7 +101,6 @@ set showmode                                                                   "
 set mouse=a                                                                    " Enables mouse
 set ruler                                                                      " Show the cursor position all time
 set relativenumber                                                             " Set relative line numbers
-set background=dark                                                            " Theme background color
 set expandtab                                                                  " Tab to spaces
 set tabstop=2                                                                  " Defaut indentation
 set softtabstop=2                                                              " This should always equals `tabstop` for proper indenting
@@ -108,7 +109,10 @@ set autoindent
 set nowrap
 set colorcolumn=79                                                             " Highlight max line length
 set splitright                                                                 " Set up new splits positions
-set nofoldenable                                                               " Disable folding
+
+" Fold
+set nofoldenable
+set foldmethod=syntax
 
 " Scrolling
 set sidescroll=3
@@ -129,7 +133,9 @@ filetype indent on                                                             "
 filetype plugin on
 filetype indent plugin on
 
+" Theme
 silent! colorscheme gruvbox
+set background=dark                                                           " Theme background color
 
 " ================= Plugin Specific configuration
 
@@ -155,6 +161,7 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 
 " ALE
 let g:ale_linters = {'javascript': ['eslint']}                                 "Lint js with eslint
+let g:ale_fixers = {'javascript': ['eslint']}                                 "Lint js with eslint
 let g:ale_lint_on_save = 1                                                     "Lint when saving a file
 let g:ale_sign_error = '✘'                                                     "Lint error sign
 let g:ale_sign_warning = '⚠️'                                                   "Lint warning sign
@@ -252,8 +259,9 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 command Bd bp | sp | bn | bd                                                   " Bd safely closes buffer w/o closing Vim.
-command Qq Bd
-command Qqq bufdo Bd
+command QQ Bd
+command QQQ bufdo Bd
+command QQQQ bufdo q
 
 " Disable arrow keys
 noremap <Up> <NOP>
