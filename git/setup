@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+puts "What's your name?"
+name = gets.chomp
+puts "What's your email?"
+email = gets.chomp
+
+system('git config --global color.ui true')
+system("git config --global user.name '#{name}'")
+system("git config --global user.email '#{email}'")
+
+unless File.exist? "#{ENV['HOME']}/.ssh/id_rsa"
+  system("ssh-keygen -t rsa -b 4096 -C '#{email}'")
+end
