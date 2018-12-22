@@ -1,14 +1,36 @@
 #!/usr/bin/env ruby
 
-system 'git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim'
+require 'fileutils'
 
-if system('which apt')
-  system('sudo apt-get install software-properties-common')
-  system('sudo add-apt-repository ppa:neovim-ppa/stable')
-  system('sudo apt update')
-  system('sudo apt install neovim')
-  system('sudo apt-get install python-dev python-pip python3-dev python3-pip')
-elsif system('which pacman')
-  system('sudo pacman -S neovim')
+HOME_DIR = ENV['HOME']
+
+if !`which nvim || ''`.empty?
+  puts "Neovim binary found at: #{`which nvim`}"
+else
+  system 'git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim'
+
+  if system('which apt')
+    system('sudo apt-get install software-properties-common')
+    system('sudo add-apt-repository ppa:neovim-ppa/stable')
+    system('sudo apt update')
+    system('sudo apt install neovim')
+    system('sudo apt-get install python-dev python-pip python3-dev python3-pip')
+  elsif system('which pacman')
+    system('sudo pacman -S neovim')
+  end
 end
 
+FileUtils.cd File.dirname(__FILE__) do
+  if File.exist?(File.expand_path('./config/nvim/init.vim', HOME_DIR))
+    puts 'init.vim file already exists. Do you want it to be overrided? (Y/N)'
+    answer = gets.chomp.downcase
+
+    if answer == 'y'
+      FileUtils.cp '.nvimrc', "#{HOME_DIR}/.config/nvim/init.vim"
+    end
+  else
+    FileUtils.cp '.nvimrc', "#{HOME_DIR}/.config/nvim/init.vim"
+  end
+end
+
+puts 'Done.'

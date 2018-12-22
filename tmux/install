@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+HOME_DIR = ENV['HOME']
+
+if !`which tmux || ''`.empty?
+  puts "Tmux binary found at: #{`which tmux`}"
+else
+  if system('which apt')
+    system('sudo apt update')
+    system('sudo apt install tmux')
+  elsif system('which pacman')
+    system('sudo pacman -S tmux')
+  end
+end
+
+puts 'Creating .tmux.conf...'
+
+FileUtils.cd File.dirname(__FILE__) do
+  if File.exist?(File.expand_path('.tmux.conf', HOME_DIR))
+    puts '.tmux.conf file already exists. Do you want it to be overrided? (Y/N)'
+    answer = gets.chomp.downcase
+
+    if answer == 'y'
+      FileUtils.cp '.tmux.conf', "#{HOME_DIR}/.tmux.conf"
+    end
+  else
+    FileUtils.cp '.tmux.conf', "#{HOME_DIR}/.tmux.conf"
+  end
+end
+
+puts 'Done.'
+

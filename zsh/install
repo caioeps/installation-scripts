@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+HOME_DIR = ENV['HOME']
+
+if !`which zsh || ''`.empty?
+  puts "Zsh binary found at: #{`which zsh`}"
+else
+  if system('which apt')
+    system('sudo apt install zsh')
+  elsif system('which pacman')
+    system('sudo pacman -S zsh')
+  end
+
+  puts 'Changing default terminal to Zsh.'
+  system('chsh -s $(which zsh)')
+end
+
+puts 'Creating .zshrc...'
+
+FileUtils.cd File.dirname(__FILE__) do
+  if File.exist?(File.expand_path('.zshrc', ENV['HOME']))
+    puts '.zshrc file already exists. Do you want it to be overrided? (Y/N)'
+    answer = gets.chomp.downcase
+
+    if answer == 'y'
+      FileUtils.cp '.zshrc', "#{HOME_DIR}/.zshrc"
+    end
+  else
+    FileUtils.cp '.zshrc', "#{HOME_DIR}/.zshrc"
+  end
+end
+
+puts 'Done.'
+
