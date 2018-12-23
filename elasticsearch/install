@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+def system!(*args)
+  system(*args) || abort("\n\n== Command #{args} failed ==")
+end
+
+if !`which apt || ''`.empty?
+  system! 'wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -'
+  system! 'sudo apt-get install apt-transport-https'
+  system! 'echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list'
+  system! 'sudo apt-get update && sudo apt-get install elasticsearch'
+elsif !`which pacman || ''`.empty?
+  system! 'sudo pacman -S elasticsearch'
+end

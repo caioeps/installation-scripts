@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+unless `which apt || ''`.empty?
+  system 'sudo apt-get install linux-headers-$(uname -r) build-essential'
+end
+
+system 'asdf plugin-add redis'
+system 'asdf install redis 5.0.3'
+system 'asdf global redis 5.0.3'
+
+puts 'You probably have to restart you terminal instance.'

@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+def system!(*args)
+  system(*args) || abort("\n\n== Command #{args} failed ==")
+end
+
+if !`which apt || ''`.empty?
+  system 'sudo apt-get install linux-headers-$(uname -r) build-essential'
+  system 'sudo apt-get install libreadline-dev'
+end
+
+system 'asdf plugin-add postgres'
+system! 'asdf install postgres 9.6.11'
+system! 'asdf global postgres 9.6.11'
+
+puts 'Creating a role for you on postgres...'
+
+print 'role: '
+role = gets.chomp
+print "\npassword: "
+password = gets.chomp
+
+system "createuser #{role} -s"
+
+`psql postgres -c "ALTER USER #{role} WITH PASSWORD '#{password}';"`
+
+# Clear the user password from history
+system('[ -f ~/.psql_history ] && rm ~/.psql_history')
+
