@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 
-def system!(*args)
-  system(*args) || abort("\n\n== Command #{args} failed ==")
-end
+require_relative '../shared/system'
 
 if !`which apt || ''`.empty?
   system 'sudo apt-get install linux-headers-$(uname -r) build-essential'

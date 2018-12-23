@@ -20,6 +20,8 @@ else
   end
 end
 
+system! 'sudo pip3 instll neovim'
+
 FileUtils.cd File.dirname(__FILE__) do
   if File.exist?(File.expand_path('./config/nvim/init.vim', HOME_DIR))
     puts 'init.vim file already exists. Do you want it to be overrided? (Y/N)'

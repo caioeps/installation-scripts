@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require_relative '../shared/system'
+
+if !`which apt || ''`.empty?
+  system! 'curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -'
+  system! 'echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list'
+  system! 'sudo apt-get update && sudo apt-get install yarn'
+  elsif !`which pacman || ''`.empty?
+  system! 'sudo pacman -S yarn'
+end
+

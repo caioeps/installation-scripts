@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 
-def system!(*args)
-  system(*args) || abort("\n\n== Command #{args} failed ==")
-end
+require_relative '../shared/system'
 
 if !`which apt || ''`.empty?
   system! 'wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -'
