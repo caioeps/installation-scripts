@@ -1,30 +1,12 @@
-## Vim config file
+# Installation scripts
 
-This .vimrc file uses Vundle to control its packages.
+I made this repo to make my life a little easier :)
 
-### Prerequesites
-* Vim 7.4 or later versions;
-* Vundle;
-* Python 2.x;
+## First steps
 
-### Installing Vundle
-  ```
-  $ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-  ```
+A lot of these scripts will make use of Ruby because it's easier do write them
+with it. So if you don't have Ruby installed you can install it with:
 
-### Get Started
-1. Open Vim
-  ```
-  $ vim
-  ```
-2. Inside Vim run the following command
-  ```
-  :PluginInstall
-  ```
-3. Install plugins dependencies
-Auto completion plugin
-  ```
-  $ cd ~/.vim/bundle/YouCompleteMe
-  $ ./install.py
-  ```
-
+```bash
+./ruby/install
+```
