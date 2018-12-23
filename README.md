@@ -8,5 +8,6 @@ A lot of these scripts will make use of Ruby because it's easier do write them
 with it. So if you don't have Ruby installed you can install it with:
 
 ```bash
+./asdf/install
 ./ruby/install
 ```
