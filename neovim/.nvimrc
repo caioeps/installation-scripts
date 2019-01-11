@@ -203,7 +203,7 @@ nnoremap <Leader>n :NERDTreeToggle<CR>
 " ContrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|git|logs|node_modules|tmp|target|vendor)|(\.(beam|git|ico|snap|svn|swp))$'
+let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|logs|node_modules|tmp|target)|(\.(beam|git|ico|snap|svn|swp))$'
 let g:ctrlp_max_files = 0
 let g:ctrlp_show_hidden = 1
 
@@ -257,6 +257,8 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 " Go to pane to the left
 nnoremap <C-H> <C-W><C-H>
+
+nnoremap <C-Z> :tabnew %<CR>
 
 command Bd bp | sp | bn | bd                                                   " Bd safely closes buffer w/o closing Vim.
 command QQ Bd
