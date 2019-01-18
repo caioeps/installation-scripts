@@ -2,9 +2,9 @@
 
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.2
 
-TERMINAL_RC="~/.bashrc"
+export TERMINAL_RC="~/.bashrc"
 
 [ -f ~/.zshrc ] && TERMINAL_RC="~/.zshrc"
 
-echo -e '\n. $HOME/.asdf/asdf.sh' >> TERMINAL_RC
-echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> TERMINAL_RC
+echo -e '\n. $HOME/.asdf/asdf.sh' >> $TERMINAL_RC
+echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> $TERMINAL_RC

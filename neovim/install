@@ -10,20 +10,22 @@ else
   system 'git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim'
 
   if system('which apt')
-    system('sudo apt-get install software-properties-common')
+    system('sudo apt-get install -y software-properties-common')
     system('sudo add-apt-repository ppa:neovim-ppa/stable')
     system('sudo apt update')
-    system('sudo apt install neovim')
-    system('sudo apt-get install python-dev python-pip python3-dev python3-pip')
+    system('sudo apt install -y neovim')
+    system('sudo apt-get install -y python-dev python-pip python3-dev python3-pip')
   elsif system('which pacman')
     system('sudo pacman -S neovim')
   end
 end
 
-system! 'sudo pip3 instll neovim'
+system 'pip2 install neovim'
+system 'pip3 install neovim'
 
 FileUtils.cd File.dirname(__FILE__) do
-  if File.exist?(File.expand_path('./config/nvim/init.vim', HOME_DIR))
+  FileUtils.mkdir_p(File.expand_path('./.config/nvim', HOME_DIR))
+  if File.exist?(File.expand_path('./.config/nvim/init.vim', HOME_DIR))
     puts 'init.vim file already exists. Do you want it to be overrided? (Y/N)'
     answer = gets.chomp.downcase
 

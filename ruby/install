@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+sudo apt-get install build-essential
+
 asdf plugin-add ruby
 asdf install ruby 2.5.3
 asdf global ruby 2.5.3

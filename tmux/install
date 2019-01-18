@@ -2,16 +2,28 @@
 
 require 'fileutils'
 
+require_relative '../shared/system'
+
 HOME_DIR = ENV['HOME']
 
 if !`which tmux || ''`.empty?
   puts "Tmux binary found at: #{`which tmux`}"
 else
-  if system('which apt')
-    system('sudo apt update')
-    system('sudo apt install tmux')
-  elsif system('which pacman')
-    system('sudo pacman -S tmux')
+  system! 'sudo apt install -y libevent-dev'
+  system! 'sudo apt install -y ncurses-dev'
+
+  FileUtils.cd File.dirname(__FILE__) do
+    system! 'mkdir tmux'
+    system! 'tar -C tmux -xvf tmux-2.8.tar.gz'
+  end
+
+  FileUtils.cd File.dirname(__FILE__) + '/tmux/tmux-2.8' do
+    system! './configure && make'
+    system! 'sudo make install'
+  end
+
+  if File.exist?(File.expand_path('./tmux', __FILE__))
+    FileUtils.rm_rf(File.expand_path('./tmux', __FILE__))
   end
 end
 

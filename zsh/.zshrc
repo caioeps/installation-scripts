@@ -8,7 +8,9 @@ export ZSH="/home/caio/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="minimal"
+ZSH_THEME="simple"
+ZSH_THEME="sorin"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -65,6 +67,11 @@ HIST_STAMPS="mm/dd/yyyy"
 plugins=(
   git
   asdf
+  ansible
+  git-auto-fetch
+  gitfast
+  heroku
+  jira
 )
 
 source $ZSH/oh-my-zsh.sh
