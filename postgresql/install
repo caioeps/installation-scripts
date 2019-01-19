@@ -13,10 +13,19 @@ system! 'asdf global postgres 9.6.11'
 
 puts 'Creating a role for you on postgres...'
 
+puts "\n" * 5
+puts '=' * 10
+
 print 'role: '
 role = gets.chomp
 print "\npassword: "
 password = gets.chomp
+
+puts '=' * 10
+puts "\n" * 5
+
+system! 'pg_ctl start'
+
 
 system "createuser #{role} -s"
 
