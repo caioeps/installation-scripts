@@ -66,8 +66,8 @@ call vundle#begin()
   Plugin 'slim-template/vim-slim.git'                                          " Slim Template syntax
   Plugin 'tpope/vim-fugitive'                                                  " Git
   Plugin 'tpope/vim-rhubarb'                                                   " Open files in Github
-  Plugin 'vim-airline/vim-airline'
-  Plugin 'vim-airline/vim-airline-themes'                                      " Airline
+  "Plugin 'vim-airline/vim-airline'
+  "Plugin 'vim-airline/vim-airline-themes'                                      " Airline
   Plugin 'morhetz/gruvbox'                                                     " Gruvbox theme
   Plugin 'powerline/fonts'                                                     " Powerline fonts
   Plugin 'w0rp/ale'                                                            " Linter
@@ -78,6 +78,9 @@ call vundle#begin()
   Plugin 'neoclide/tern-neovim', {'do': 'npm install && npm install -g tern'}  " Ternjs for javascript
   Plugin 'ludovicchabant/vim-gutentags'                                        " Handle tag generation
   Plugin 'digitaltoad/vim-pug'
+  Plugin 'itchyny/lightline.vim'                                               " Line at bottom
+
+  Plugin 'KabbAmine/yowish.vim'                                                " Theme
 call vundle#end()
 
 " ================= Functions
@@ -109,6 +112,7 @@ set autoindent
 set nowrap
 set colorcolumn=79                                                             " Highlight max line length
 set splitright                                                                 " Set up new splits positions
+set splitbelow                                                                 " Set up new splits positions
 
 " Fold
 set nofoldenable
@@ -134,19 +138,21 @@ filetype plugin on
 filetype indent plugin on
 
 " Theme
-silent! colorscheme gruvbox
-set background=dark                                                           " Theme background color
+"silent! colorscheme gruvbox
+"set background=dark                                                           " Theme background color
+
+silent! colorscheme yowish
 
 " ================= Plugin Specific configuration
 
 " Airline
 set laststatus=2                                                               " Always displays current file, so Airline works
-let g:airline_section_b = ''                                                   " hide VCS from Airline
-let g:airline_powerline_fonts = 1                                              " Tells Airline theme to use powerline style
-let g:airline#extensions#tabline#enabled = 1                                   " Enable tabline ext
-let g:airline#extensions#tabline#left_sep = ' '                                " Tabline left separator
-let g:airline#extensions#tabline#left_alt_sep = '|'                            " Tabline right separator
-let g:airline#extensions#tabline#buffer_idx_mode = 1                           " TODO Don't know
+"let g:airline_section_b = ''                                                   " hide VCS from Airline
+"let g:airline_powerline_fonts = 1                                              " Tells Airline theme to use powerline style
+"let g:airline#extensions#tabline#enabled = 1                                   " Enable tabline ext
+"let g:airline#extensions#tabline#left_sep = ' '                                " Tabline left separator
+"let g:airline#extensions#tabline#left_alt_sep = '|'                            " Tabline right separator
+"let g:airline#extensions#tabline#buffer_idx_mode = 1                           " TODO Don't know
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -230,6 +236,11 @@ let g:user_emmet_settings = {
 \      'extends' : 'jsx',
 \  },
 \}
+
+" Lightline
+let g:lightline = {
+  \ 'colorscheme': 'wombat',
+\ }
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1
