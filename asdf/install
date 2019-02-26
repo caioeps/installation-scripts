@@ -2,7 +2,7 @@
 
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.2
 
-export TERMINAL_RC="~/.bashrc"
+export TERMINAL_RC="/home/$(whoami)/.bashrc"
 
 [ -f ~/.zshrc ] && TERMINAL_RC="~/.zshrc"
 
