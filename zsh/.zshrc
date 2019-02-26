@@ -108,6 +108,8 @@ alias g="git"
 alias gst="git status"
 alias gdiff="git diff"
 
+alias b="bundle exec"
+
 alias dco="docker-compose"
 
 alias cdplatform="cd ~/workspace/platform"
