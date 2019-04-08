@@ -38,15 +38,7 @@ FileUtils.cd File.dirname(__FILE__) do
   end
 end
 
-puts <<~MSG
-
-
-  After running `PluginInstall`:
-
-  cd ~/.vim/bundle/tern-neovim
-  npm install
-
-
-MSG
+system "neovim -c 'PluginInstall'"
+system "neovim -c 'UpdateRemotePlugins'"
 
 puts 'Done.'
