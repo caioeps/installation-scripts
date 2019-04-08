@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+HOME_DIR = ENV['HOME']
+
+if !`which i3 || ''`.empty?
+  puts "i3 binary found at: #{`which i3`}"
+  puts "pavucontrol binary found at: #{`which pavucontrol`}"
+  puts "xbacklight binary found at: #{`which xbacklight`}"
+  puts "mc binary found at: #{`which mc`}"
+  puts "shutter binary found at: #{`which shutter`}"
+  puts "synapse binary found at: #{`which synapse`}"
+else
+  system('sudo apt install -y i3 pavucontrol xbacklight mc shutter synapse')
+end
+
+FileUtils.cd File.dirname(__FILE__) do
+  FileUtils.mkdir_p(File.expand_path('./.config/i3', HOME_DIR))
+
+  if File.exist?(File.expand_path('./.config/i3/config', HOME_DIR))
+    puts 'config file already exists. Do you want it to be overrided? (Y/N)'
+    answer = gets.chomp.downcase
+
+    if answer == 'y'
+      FileUtils.cp 'config', "#{HOME_DIR}/.config/i3/config"
+    end
+  else
+    FileUtils.cp 'config', "#{HOME_DIR}/.config/i3/config"
+  end
+end
+
+system('notify-send "i3" "Finished setting up i3"')
