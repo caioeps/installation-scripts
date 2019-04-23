@@ -1,0 +1,22 @@
+name: platform
+root: ~/workspace/platform
+tmux_detached: false
+windows:
+  - nvim: nvim .
+  - guard:
+      pre:
+        - test $(ps aux | grep postgres | wc -l) -gt 1 || pg_ctl start
+      panes:
+        - bundle exec guard
+  - shell:
+  - console: bundle exec rails c
+  - rails-server:
+      pre:
+        - test $(ps aux | grep postgres | wc -l) -gt 1 || pg_ctl start
+      panes:
+        - bundle exec rails server
+  - webpack-dev-server:
+      pre:
+        - yarn install
+      panes:
+        - bin/webpack-dev-server
