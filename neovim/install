@@ -38,7 +38,7 @@ FileUtils.cd File.dirname(__FILE__) do
   end
 end
 
-system "neovim -c 'PluginInstall'"
-system "neovim -c 'UpdateRemotePlugins'"
+system "nvim -c 'PluginInstall'"
+system "nvim -c 'UpdateRemotePlugins'"
 
 puts 'Done.'
