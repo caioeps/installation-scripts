@@ -2,7 +2,7 @@ name: jobs
 root: ~/workspace/jobs
 tmux_detached: false
 windows:
-  - nvim: nvim .
+  - nvim: nvim
   - guard:
       pre:
         - test $(ps aux | grep postgres | wc -l) -gt 1 || pg_ctl start
