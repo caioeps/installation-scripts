@@ -1,42 +1,27 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env python3
 
-require 'fileutils'
+import os
+import shutil
 
-HOME_DIR = ENV['HOME']
+HOME_DIR = os.environ.get('HOME')
 
-if !`which zsh || ''`.empty?
-  puts "Zsh binary found at: #{`which zsh`}"
-else
-  if system('which apt')
-    system('sudo apt install -y zsh')
-  elsif system('which pacman')
-    system('sudo pacman -S zsh')
-  end
+print('Creating .zshrc')
 
-  puts 'Changing default terminal to Zsh.'
-  system('chsh -s $(which zsh)')
-end
+shutil.copyfile('%s/.zshrc' % os.path.dirname(__file__), '%s/.zshrc' % HOME_DIR)
 
-if !`which curl || ''`.empty?
-  system 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"'
-elsif !`which wget || ''`.empty?
-  system 'sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"'
-end
+if os.system('which zsh') == 0:
+    print('ZSH binary found.')
+else:
+    os.system('sudo apt install -y zsh')
+    print('Changing defaul terminal to ZSH')
+    os.system('chsh -s $(which zsh)')
 
-puts 'Creating .zshrc...'
+if os.system('which curl') == 0:
+    os.system('sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"')
+elif os.system('which wget') == 0:
+    os.system('sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"')
+else:
+    raise 'Neither curl or wget are installed.'
 
-FileUtils.cd File.dirname(__FILE__) do
-  if File.exist?(File.expand_path('.zshrc', ENV['HOME']))
-    puts '.zshrc file already exists. Do you want it to be overrided? (Y/N)'
-    answer = gets.chomp.downcase
 
-    if answer == 'y'
-      FileUtils.cp '.zshrc', "#{HOME_DIR}/.zshrc"
-    end
-  else
-    FileUtils.cp '.zshrc', "#{HOME_DIR}/.zshrc"
-  end
-end
-
-puts 'Done.'
 

@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import os
+import shutil
+
+print("What's your name")
+name = input()
+print("What's your email")
+email = input()
+
+os.system('git config --global color.ui true')
+os.system('git config --global user.name %s' % name)
+os.system('git config --global user.email %s' % email)
+
+os.system("git config --global core.excludesfile '~/.gitignore' ")
+os.system("echo 'tags' >> ~/.gitignore")
+os.system("echo '**/*.swp' >> ~/.gitignore")
