@@ -21,6 +21,9 @@ else
   end
 end
 
+system 'sudo apt install ctags'
+system 'npm install -g neovim'
+system 'npm install -g typescript'
 system 'pip2 install neovim'
 system 'pip3 install neovim'
 
