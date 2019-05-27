@@ -4,83 +4,113 @@ call vundle#begin()
   Plugin 'gmarik/Vundle.vim'
   " Autocomplete
   Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
   " Commenter
   Plugin 'scrooloose/nerdcommenter'
+
   " Delimitador
   Plugin 'Raimondi/delimitMate'
-  Plugin 'SirVer/ultisnips'                                                    " Snippets
-  " Used for finding words in a project
-  Plugin 'dkprice/vim-easygrep'
-  " Easy navigation through the file
-  Plugin 'easymotion/vim-easymotion'
+
   " Indent lines
   Plugin 'Yggdroot/indentLine'
+
   " CtrlP - find files
   Plugin 'ctrlpvim/ctrlp.vim'
+
   " Matchit - opening and closing tags
   Plugin 'geoffharcourt/vim-matchit'
+
   " NERDTree
   " Treeview of the project
   Plugin 'scrooloose/nerdtree'
   Plugin 'jistr/vim-nerdtree-tabs'
-  " Provides snippets
-  Plugin 'MarcWeber/vim-addon-mw-utils'
-  Plugin 'tomtom/tlib_vim'
-  Plugin 'garbas/vim-snipmate'
+
   " Adds snippets for many languages
   Plugin 'scrooloose/snipmate-snippets'
-  " Rename
-  Plugin 'danro/rename.vim'
+
   " Surrounding quotes, brackets etc
   Plugin 'tpope/vim-surround'
+
   " Crystal Syntax
   Plugin 'rhysd/vim-crystal'
+
   " Elixir syntax
   Plugin 'elixir-lang/vim-elixir'
+
   " Information about elixir project
   Plugin 'slashmili/alchemist.vim'
+
   " Automatically insert the closing HTML tag
   Plugin 'HTML-AutoCloseTag'
+
   " Emmet html
   Plugin 'mattn/emmet-vim'
+
   " CoffeeScript syntax
   Plugin 'kchmck/vim-coffee-script'
-  " Ionic syntax highlight
-  Plugin 'akz92/vim-ionic2'
 
   Plugin 'pangloss/vim-javascript'                                             " JavaScript Syntax
   Plugin 'heavenshell/vim-jsdoc'                                               " JSdoc
   Plugin 'maxmellon/vim-jsx-pretty'                                            " JSX syntax for React
   Plugin 'epilande/vim-react-snippets'                                         " React snippets
   Plugin 'joaohkfaria/vim-jest-snippets'                                       " Jest snippets
-  Plugin 'HerringtonDarkholme/yats.vim'
-  Plugin 'mhartington/nvim-typescript'                                         " TypeScript syntax
-  Plugin 'lervag/vimtex'                                                       " Latex
-  Plugin 'godlygeek/tabular'
-  Plugin 'plasticboy/vim-markdown'                                             " Markdown syntax
-  Plugin 'vim-scripts/Vim-R-plugin'                                            " R syntax
-  Plugin 'vim-ruby/vim-ruby'                                                   " Ruby syntax
-  Plugin 'joker1007/vim-ruby-heredoc-syntax'                                   " HEREDOC syntax
-  Plugin 'tpope/vim-rails'                                                     " Some tweaks for rails projects
-  Plugin 'cakebaker/scss-syntax.vim'                                           " SCSS syntax
-  Plugin 'slim-template/vim-slim.git'                                          " Slim Template syntax
-  Plugin 'tpope/vim-fugitive'                                                  " Git
-  Plugin 'tpope/vim-rhubarb'                                                   " Open files in Github
-  "Plugin 'vim-airline/vim-airline'
-  "Plugin 'vim-airline/vim-airline-themes'                                      " Airline
-  Plugin 'morhetz/gruvbox'                                                     " Gruvbox theme
-  Plugin 'powerline/fonts'                                                     " Powerline fonts
-  Plugin 'w0rp/ale'                                                            " Linter
-  Plugin 'rking/ag.vim'                                                        " The Silver Searcher
-  Plugin 'majutsushi/tagbar'
-  Plugin 'rlue/vim-fold-rspec'
-  Plugin 'wesQ3/vim-windowswap'                                                " Swap panes easily with <leader>ww
-  Plugin 'neoclide/tern-neovim', {'do': 'npm install && npm install -g tern'}  " Ternjs for javascript
-  Plugin 'ludovicchabant/vim-gutentags'                                        " Handle tag generation
-  Plugin 'digitaltoad/vim-pug'
-  Plugin 'itchyny/lightline.vim'                                               " Line at bottom
 
-  Plugin 'KabbAmine/yowish.vim'                                                " Theme
+  " Typescript
+  Plugin 'HerringtonDarkholme/yats.vim'
+  Plugin 'mhartington/nvim-typescript', { 'do': './install.sh' }
+
+  " Markdown syntax
+  Plugin 'plasticboy/vim-markdown'
+
+  " R syntax
+  Plugin 'vim-scripts/Vim-R-plugin'
+
+  " Ruby
+  Plugin 'vim-ruby/vim-ruby'
+
+  " HEREDOC Syntax
+  Plugin 'joker1007/vim-ruby-heredoc-syntax'
+
+  " Some tweaks for rails projects.
+  Plugin 'tpope/vim-rails'
+
+  " SCSS syntax
+  Plugin 'cakebaker/scss-syntax.vim'
+
+  " Slim Template syntax
+  Plugin 'slim-template/vim-slim.git'
+
+  " Git
+  Plugin 'tpope/vim-fugitive'
+  " Open files in Github
+  Plugin 'tpope/vim-rhubarb'
+
+  " Gruvbox theme
+  Plugin 'morhetz/gruvbox'
+
+  " Powerline fonts
+  Plugin 'powerline/fonts'
+
+  " Linter
+  Plugin 'w0rp/ale'
+
+  " The Silver Searcher
+  Plugin 'rking/ag.vim'
+
+  " Fold RSpec examples.
+  Plugin 'rlue/vim-fold-rspec'
+
+  " Ternjs for javascript
+  Plugin 'neoclide/tern-neovim', {'do': 'npm install && npm install -g tern'}
+
+  " Handle tag generation
+  Plugin 'ludovicchabant/vim-gutentags'
+
+  " Pug
+  Plugin 'digitaltoad/vim-pug'
+
+  " Line at bottom
+  Plugin 'itchyny/lightline.vim'
 call vundle#end()
 
 " ================= Functions
@@ -133,39 +163,18 @@ syntax enable
 filetype on
 
 filetype indent on                                                             " Enable filetype-specific indenting
+
 " Enable filetype-specific plugins
 filetype plugin on
 filetype indent plugin on
 
 " Theme
-"silent! colorscheme gruvbox
-"set background=dark                                                           " Theme background color
-
-silent! colorscheme yowish
+silent! colorscheme gruvbox
+set background=dark                                                           " Theme background color
 
 " ================= Plugin Specific configuration
 
-" Airline
-set laststatus=2                                                               " Always displays current file, so Airline works
-"let g:airline_section_b = ''                                                   " hide VCS from Airline
-"let g:airline_powerline_fonts = 1                                              " Tells Airline theme to use powerline style
-"let g:airline#extensions#tabline#enabled = 1                                   " Enable tabline ext
-"let g:airline#extensions#tabline#left_sep = ' '                                " Tabline left separator
-"let g:airline#extensions#tabline#left_alt_sep = '|'                            " Tabline right separator
-"let g:airline#extensions#tabline#buffer_idx_mode = 1                           " TODO Don't know
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
-
-" ALE
+" ALE - Linter
 let g:ale_linters = {'javascript': ['eslint']}                                 "Lint js with eslint
 let g:ale_fixers = {'javascript': ['eslint']}                                 "Lint js with eslint
 let g:ale_lint_on_save = 1                                                     "Lint when saving a file
@@ -196,8 +205,6 @@ let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea']
 let NERDTreeDirArrows = 1
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
-"autocmd StdinReadPre * let s:std_in=1                                          " Open NERDTree when vim is opened without any specified file
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif    " Open NERDTree when vim is opened without any specified file
 " Find current file in NERDTree
 nnoremap <Leader>hf :NERDTreeFind<CR>
 " Open NERDTree
@@ -206,7 +213,7 @@ nnoremap <Leader>n :NERDTreeToggle<CR>
 " ContrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|logs|node_modules|tmp|target)|(\.(beam|git|ico|snap|svn|swp))$'
+let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|node_modules|tmp|target)|(\.(beam|git|ico|snap|svn|swp))$'
 let g:ctrlp_max_files = 0
 let g:ctrlp_show_hidden = 1
 
@@ -229,21 +236,29 @@ let g:deoplete#max_list = 20                                                   "
 " Emmet
 let g:user_emmet_leader_key='<C-y>'
 let g:user_emmet_settings = {
-\  'javascript' : {
-\      'extends' : 'jsx',
-\  },
-\}
+\     'javascript' : {
+\       'extends' : 'jsx',
+\     },
+\   }
 
 " Lightline
 let g:lightline = {
-  \ 'colorscheme': 'wombat',
-\ }
+\     'colorscheme': 'wombat',
+\   }
+
+let g:lightline = {
+\     'active': {
+\       'left': [ [ 'mode', 'paste' ],
+\                 [ 'readonly', 'filename' ] ],
+\     },
+\     'component_function': {
+\       'filename': 'LightlineFilename',
+\     },
+\   }
+
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1
-
-" Tagbar
-nmap <F8> :TagbarToggle<CR>
 
 " snippets
 imap <C-/> <Plug>snipMateNextOrTrigger
@@ -268,7 +283,8 @@ nnoremap <C-H> <C-W><C-H>
 
 nnoremap <C-Z> :tabnew %<CR>
 
-command Bd bp | sp | bn | bd                                                   " Bd safely closes buffer w/o closing Vim.
+" Bd safely closes buffer w/o closing Vim.
+command Bd bp | sp | bn | bd
 command QQ Bd
 command QQQ bufdo Bd
 command QQQQ bufdo q
@@ -348,10 +364,16 @@ autocmd BufRead,BufNewFile *.slim set filetype=slim
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
 
 " ================= Autocommands
-autocmd BufWritePre * :call s:StripTrailingWhitespaces()                  " Auto-remove trailing spaces
-autocmd InsertEnter * :setlocal nohlsearch                                     " Toggle highlight off when entering insert mode
-autocmd InsertLeave * :setlocal hlsearch                                       " Toggle highlight back on when leaving insert mode
-set noerrorbells visualbell t_vb=                                              " Disable annoying sound
+
+" Auto-remove trailing spaces
+autocmd BufWritePre * :call s:StripTrailingWhitespaces()
+" Toggle highlight off when entering insert mode
+autocmd InsertEnter * :setlocal nohlsearch
+" Toggle highlight back on when leaving insert mode
+autocmd InsertLeave * :setlocal hlsearch
+" Disable annoying sound
+set noerrorbells visualbell t_vb=
+
 if has('autocmd')
   autocmd GUIEnter * set visualbell t_vb=
 endif

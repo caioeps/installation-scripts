@@ -1,54 +1,29 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env python3
 
-require 'fileutils'
+import os
+import shutil
 
-require_relative '../shared/system'
+current_path = os.path.dirname(__file__)
+tmux_tar = "%s/tmux-2.8.tar.gz" % current_path
+decompressed_tmux_dir = "%s/tmux" % current_path
+decompressed_tmux = "%s/tmux-2.8" % decompressed_tmux_dir
+tmux_conf = '%s/.tmux.conf' % current_path
 
-HOME_DIR = ENV['HOME']
+os.system('sudo apt install -y libevent-dev')
+os.system('sudo apt install -y ncurses-dev')
+os.mkdir(decompressed_tmux_dir)
+os.system("tar -c %s -xvf %s" % (decompressed_tmux_dir, tmux_tar))
 
-if !`which tmux || ''`.empty?
-  puts "Tmux binary found at: #{`which tmux`}"
-else
-  system! 'sudo apt install -y libevent-dev'
-  system! 'sudo apt install -y ncurses-dev'
+os.system("cd %s && ./configure && make && sudo make install")
 
-  FileUtils.cd File.dirname(__FILE__) do
-    system! 'mkdir tmux'
-    system! 'tar -C tmux -xvf tmux-2.8.tar.gz'
-  end
+shutil.rmtree(decompressed_tmux_dir)
 
-  FileUtils.cd File.dirname(__FILE__) + '/tmux/tmux-2.8' do
-    system! './configure && make'
-    system! 'sudo make install'
-  end
+shutil.copy(tmux_conf, '~/.tmux.conf')
 
-  if File.exist?(File.expand_path('./tmux', __FILE__))
-    FileUtils.rm_rf(File.expand_path('./tmux', __FILE__))
-  end
-end
-
-puts 'Creating .tmux.conf...'
-
-FileUtils.cd File.dirname(__FILE__) do
-  if File.exist?(File.expand_path('.tmux.conf', HOME_DIR))
-    puts '.tmux.conf file already exists. Do you want it to be overrided? (Y/N)'
-    answer = gets.chomp.downcase
-
-    if answer == 'y'
-      FileUtils.cp '.tmux.conf', "#{HOME_DIR}/.tmux.conf"
-    end
-  else
-    FileUtils.cp '.tmux.conf', "#{HOME_DIR}/.tmux.conf"
-  end
-end
-
-system! <<~BASH
+os.system("""
   if [ -d ~/.tmux/plugins/tpm ]; then
     echo 'TMP Plugin is already installed.'
   else
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   fi
-BASH
-
-puts 'Done.'
-
+""")

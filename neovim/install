@@ -1,47 +1,24 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env python3
 
-require 'fileutils'
+import os
+import shutil
 
-HOME_DIR = ENV['HOME']
+current_vimrc = "~/.config/nvim/init.vim"
+future_vimrc = "%s/.nvimrc" % os.path.dirname(__file__)
 
-if !`which nvim || ''`.empty?
-  puts "Neovim binary found at: #{`which nvim`}"
-else
-  system 'sudo chown -R $(whoami) ~/vim'
-  system 'git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim'
+os.system('sudo chown -R $(whoami) ~/.vim')
+os.system('git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim')
+os.system('sudo apt-get install -y software-properties-common')
+os.system('sudo add-apt-repository ppa:neovim-ppa/stable')
+os.system('sudo apt update')
+os.system('sudo apt install -y neovim')
+os.system('sudo apt-get install -y python-dev python-pip python3-dev python3-pip')
+os.system('sudo apt install ctags')
+os.system('npm install -g neovim')
+os.system('npm install -g typescript')
+os.system('pip2 install neovim')
+os.system('pip3 install neovim')
 
-  if system('which apt')
-    system('sudo apt-get install -y software-properties-common')
-    system('sudo add-apt-repository ppa:neovim-ppa/stable')
-    system('sudo apt update')
-    system('sudo apt install -y neovim')
-    system('sudo apt-get install -y python-dev python-pip python3-dev python3-pip')
-  elsif system('which pacman')
-    system('sudo pacman -S neovim')
-  end
-end
+shutil.copyfile(future_vimrc, current_vimrc)
 
-system 'sudo apt install ctags'
-system 'npm install -g neovim'
-system 'npm install -g typescript'
-system 'pip2 install neovim'
-system 'pip3 install neovim'
-
-FileUtils.cd File.dirname(__FILE__) do
-  FileUtils.mkdir_p(File.expand_path('./.config/nvim', HOME_DIR))
-  if File.exist?(File.expand_path('./.config/nvim/init.vim', HOME_DIR))
-    puts 'init.vim file already exists. Do you want it to be overrided? (Y/N)'
-    answer = gets.chomp.downcase
-
-    if answer == 'y'
-      FileUtils.cp '.nvimrc', "#{HOME_DIR}/.config/nvim/init.vim"
-    end
-  else
-    FileUtils.cp '.nvimrc', "#{HOME_DIR}/.config/nvim/init.vim"
-  end
-end
-
-system "nvim -c 'PluginInstall'"
-system "nvim -c 'UpdateRemotePlugins'"
-
-puts 'Done.'
+print('Done.')
