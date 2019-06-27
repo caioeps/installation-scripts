@@ -4,21 +4,11 @@ import os
 import shutil
 
 current_path = os.path.dirname(__file__)
-tmux_tar = "%s/tmux-2.8.tar.gz" % current_path
-decompressed_tmux_dir = "%s/tmux" % current_path
-decompressed_tmux = "%s/tmux-2.8" % decompressed_tmux_dir
 tmux_conf = '%s/.tmux.conf' % current_path
 
-os.system('sudo apt install -y libevent-dev')
-os.system('sudo apt install -y ncurses-dev')
-os.mkdir(decompressed_tmux_dir)
-os.system("tar -c %s -xvf %s" % (decompressed_tmux_dir, tmux_tar))
+os.system('sudo apt install -y tmux')
 
-os.system("cd %s && ./configure && make && sudo make install")
-
-shutil.rmtree(decompressed_tmux_dir)
-
-shutil.copy(tmux_conf, '~/.tmux.conf')
+shutil.copy(tmux_conf, '/home/caio/.tmux.conf')
 
 os.system("""
   if [ -d ~/.tmux/plugins/tpm ]; then
