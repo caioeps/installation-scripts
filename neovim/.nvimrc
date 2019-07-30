@@ -140,7 +140,7 @@ set softtabstop=2                                                              "
 set shiftwidth=2                                                               " Controls how manu spaces >> and << use
 set autoindent
 set nowrap
-set colorcolumn=79                                                             " Highlight max line length
+set colorcolumn=90                                                             " Highlight max line length
 set splitright                                                                 " Set up new splits positions
 set splitbelow                                                                 " Set up new splits positions
 
