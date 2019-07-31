@@ -3,7 +3,7 @@
 import os
 import shutil
 
-current_vimrc = "~/.config/nvim/init.vim"
+current_vimrc = "/home/caio/.config/nvim/init.vim"
 future_vimrc = "%s/.nvimrc" % os.path.dirname(__file__)
 
 os.system('sudo chown -R $(whoami) ~/.vim')
