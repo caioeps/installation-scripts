@@ -122,6 +122,12 @@ function! s:StripTrailingWhitespaces()
   call cursor(l:l, l:c)
 endfunction
 
+" Show full path of filename
+function! FilenameForLightline()
+  return expand('%')
+endfunction
+
+
 " ================= General
 
 set title
@@ -143,6 +149,8 @@ set nowrap
 set colorcolumn=90                                                             " Highlight max line length
 set splitright                                                                 " Set up new splits positions
 set splitbelow                                                                 " Set up new splits positions
+set laststatus=2
+"set statusline=%F%m%r%h%w\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 
 " Fold
 set nofoldenable
@@ -252,7 +260,7 @@ let g:lightline = {
 \                 [ 'readonly', 'filename' ] ],
 \     },
 \     'component_function': {
-\       'filename': 'LightlineFilename',
+\       'filename': 'FilenameForLightline',
 \     },
 \   }
 
