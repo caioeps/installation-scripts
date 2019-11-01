@@ -131,7 +131,11 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$PATH:$HOME/apache-jmeter-5.1.1/bin"
 
 function volume {
-  pactl -- set-sink-volume 0 $1%
+  PERCENT=$1
+  SINK=$2
+  SINK=${SINK:-"0"}
+
+  pactl -- set-sink-volume $SINK $PERCENT%
 }
 
 function brightness {
