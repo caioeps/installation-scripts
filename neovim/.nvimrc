@@ -240,6 +240,7 @@ let g:python3_host_prog = '/usr/bin/python3'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1                                           "Enable deoplete smartcase autocompletion
 let g:deoplete#max_list = 20                                                   "Max autocompletion list
+call deoplete#custom#option('auth_refresh_delay', 0)
 
 " Emmet
 let g:user_emmet_leader_key='<C-y>'

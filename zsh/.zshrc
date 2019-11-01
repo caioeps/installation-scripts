@@ -8,7 +8,8 @@ export ZSH="/home/caio/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="kphoen"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -126,3 +127,28 @@ export PATH=~/.local/bin:$PATH
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+export PATH="$PATH:$HOME/apache-jmeter-5.1.1/bin"
+
+function volume {
+  pactl -- set-sink-volume 0 $1%
+}
+
+function brightness {
+  SYNTAX="\\n \\t SYNTAX:  dimmer level \\n \\t Where 'level' ranges from 0 to 100.\\n";
+
+  LEVEL=$1
+  if [ $LEVEL -gt 100 ]; then
+    echo -e $SYNTAX;
+    exit 1;
+  fi
+
+  if [ $LEVEL -lt 0 ]; then
+    echo -e $SYNTAX;
+    exit 1;
+  fi
+  brightness_level="$(( $LEVEL / 100)).$(( $LEVEL % 100 ))"
+  screenname=$(xrandr | grep " connected" | cut -f1 -d" ")
+  xrandr --output $screenname --brightness $brightness_level;
+  echo -e "[info]: Screen Brightness level set to" $LEVEL"%"
+}
