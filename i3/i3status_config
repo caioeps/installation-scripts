@@ -1,0 +1,51 @@
+general {
+    output_format = "i3bar"
+    separator = " | "
+}
+
+order += "ipv6"
+order += "eth0"
+order += "battery 0"
+order += "disk /"
+order += "cpu_temperature 0"
+order += "cpu_usage"
+order += "memory"
+order += "time"
+
+wireless wlan0 {
+  format_up = "W: (%quality at %essid, %bitrate) %ip"
+  format_down = "W: down"
+}
+
+ethernet eth0 {
+  format_up = "E: %ip (%speed)"
+  format_down = "E: down"
+}
+
+battery 0 {
+  format = "%status %percentage"
+  format_down = "No battery"
+  status_chr = "CHR"
+  status_bat = "BAT"
+  status_unk = "? UNK"
+  status_full = "☻ FULL"
+  path = "/sys/class/power_supply/BAT%d/uevent"
+  low_threshold = 15
+}
+
+disk "/" {
+  format = "%avail"
+}
+
+cpu_temperature 0 {
+  format = "T: %degrees °C"
+  path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input"
+}
+
+cpu_usage {
+  format = "CPU: %usage"
+}
+
+time {
+  format = "%Y-%m-%d %H:%M:%S"
+}
