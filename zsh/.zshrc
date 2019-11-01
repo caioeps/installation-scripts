@@ -152,3 +152,6 @@ function brightness {
   xrandr --output $screenname --brightness $brightness_level;
   echo -e "[info]: Screen Brightness level set to" $LEVEL"%"
 }
+
+alias media="playerctl"
+alias wifi="nmcli dev wifi"

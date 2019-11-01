@@ -6,7 +6,7 @@ HOME_DIR = ENV['HOME']
 
 system('sudo add-apt-repository ppa:linuxuprising/shutter')
 system('sudo apt update')
-system('sudo apt install -y i3 pavucontrol xbacklight mc shutter synapse')
+system('sudo apt install -y i3 pavucontrol xbacklight playerctl mc shutter synapse')
 
 FileUtils.cd File.dirname(__FILE__) do
   FileUtils.mkdir_p(File.expand_path('./.config/i3', HOME_DIR))
