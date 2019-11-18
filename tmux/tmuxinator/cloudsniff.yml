@@ -1,0 +1,12 @@
+name: cloudsniff
+root: ~/workspace/intricately/cloudsniff
+tmux_detached: false
+windows:
+  - nvim: nvim
+  - guard:
+      panes:
+        - sleep 10; docker exec -it $(docker ps -qf "name=cloudsniff_dev") guard
+  - zsh:
+  - container:
+      panes:
+        - docker-compose run --rm dev bash

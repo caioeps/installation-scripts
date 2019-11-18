@@ -1,19 +1,23 @@
-#!/usr/bin/env python3
+#!/usr/bin/env bash
 
-import os
-import shutil
+set -e
 
-current_path = os.path.dirname(__file__)
-tmux_conf = '%s/.tmux.conf' % current_path
+DIR=$(dirname "$(readlink -f "$0")")
 
-os.system('sudo apt install -y tmux')
+TMUX_CONF=$DIR/.tmux.conf
 
-shutil.copy(tmux_conf, '/home/caio/.tmux.conf')
+sudo apt install -y tmux
 
-os.system("""
-  if [ -d ~/.tmux/plugins/tpm ]; then
+rm ~/.tmux.conf
+ln -s $TMUX_CONF ~/.tmux.conf
+
+if [ -d ~/.tmux/plugins/tpm ]; then
     echo 'TMP Plugin is already installed.'
-  else
+else
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  fi
-""")
+fi
+
+gem install tmuxinator
+
+rm -rf ~/.tmuxinator
+ln -s $DIR/tmuxinator ~/.tmuxinator

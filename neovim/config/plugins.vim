@@ -60,9 +60,6 @@ call vundle#begin()
   " Markdown syntax
   Plugin 'plasticboy/vim-markdown'
 
-  " R syntax
-  Plugin 'vim-scripts/Vim-R-plugin'
-
   " Ruby
   Plugin 'vim-ruby/vim-ruby'
 
@@ -107,4 +104,7 @@ call vundle#begin()
 
   " Line at bottom
   Plugin 'itchyny/lightline.vim'
+
+  " Tree icons
+  Plugin 'ryanoasis/vim-devicons'
 call vundle#end()
