@@ -157,5 +157,15 @@ function brightness {
   echo -e "[info]: Screen Brightness level set to" $LEVEL"%"
 }
 
+function lock {
+  which i3lock && i3lock -c 1d4d4f -e
+}
+
+function mysuspend {
+  lock
+
+  systemctl suspend;
+}
+
 alias media="playerctl"
 alias wifi="nmcli dev wifi"
