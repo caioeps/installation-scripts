@@ -104,7 +104,4 @@ call vundle#begin()
 
   " Line at bottom
   Plugin 'itchyny/lightline.vim'
-
-  " Tree icons
-  Plugin 'ryanoasis/vim-devicons'
 call vundle#end()

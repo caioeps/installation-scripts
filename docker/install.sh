@@ -5,6 +5,8 @@ set -e
 FOLDER=~/Downloads
 PACKAGE_NAME=containerd.io_1.2.6-3_amd64.deb
 
+which curl || sudo apt install curl
+
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable"
