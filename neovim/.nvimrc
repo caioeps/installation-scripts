@@ -4,6 +4,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
   Plugin 'gmarik/Vundle.vim'
+
   " Autocomplete
   Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
@@ -36,7 +37,7 @@ call vundle#begin()
   " Elixir syntax
   Plugin 'elixir-lang/vim-elixir'
 
-  " Information about elixir project
+  " Information about Elixir project
   Plugin 'slashmili/alchemist.vim'
 
   " Automatically insert the closing HTML tag
@@ -45,30 +46,29 @@ call vundle#begin()
   " Emmet html
   Plugin 'mattn/emmet-vim'
 
-  " CoffeeScript syntax
+  " Javascript
+  " JavaScript Syntax
+  Plugin 'pangloss/vim-javascript'
   Plugin 'kchmck/vim-coffee-script'
-
-  Plugin 'pangloss/vim-javascript'                                             " JavaScript Syntax
-  Plugin 'heavenshell/vim-jsdoc'                                               " JSdoc
-  Plugin 'maxmellon/vim-jsx-pretty'                                            " JSX syntax for React
-  Plugin 'epilande/vim-react-snippets'                                         " React snippets
-  Plugin 'joaohkfaria/vim-jest-snippets'                                       " Jest snippets
-
+  Plugin 'heavenshell/vim-jsdoc'
+  " JSX syntax for React
+  Plugin 'maxmellon/vim-jsx-pretty'
   " Typescript
   Plugin 'HerringtonDarkholme/yats.vim'
   Plugin 'mhartington/nvim-typescript', { 'do': './install.sh' }
+  " Ternjs for javascript
+  Plugin 'neoclide/tern-neovim', {'do': 'npm install && npm install -g tern'}
+
 
   " Markdown syntax
   Plugin 'plasticboy/vim-markdown'
 
   " Ruby
   Plugin 'vim-ruby/vim-ruby'
+  Plugin 'tpope/vim-rails'
 
   " HEREDOC Syntax
   Plugin 'joker1007/vim-ruby-heredoc-syntax'
-
-  " Some tweaks for rails projects.
-  Plugin 'tpope/vim-rails'
 
   " SCSS syntax
   Plugin 'cakebaker/scss-syntax.vim'
@@ -82,6 +82,9 @@ call vundle#begin()
   " Gruvbox theme
   Plugin 'morhetz/gruvbox'
 
+  " Dracula theme
+  Plugin 'dracula/vim'
+
   " Powerline fonts
   Plugin 'powerline/fonts'
 
@@ -94,9 +97,6 @@ call vundle#begin()
   " Fold RSpec examples.
   Plugin 'rlue/vim-fold-rspec'
 
-  " Ternjs for javascript
-  Plugin 'neoclide/tern-neovim', {'do': 'npm install && npm install -g tern'}
-
   " Handle tag generation
   Plugin 'ludovicchabant/vim-gutentags'
 
@@ -105,9 +105,6 @@ call vundle#begin()
 
   " Line at bottom
   Plugin 'itchyny/lightline.vim'
-
-  " Tree icons
-  Plugin 'ryanoasis/vim-devicons'
 call vundle#end()
 
 """""""""""""
@@ -213,6 +210,9 @@ filetype indent plugin on
 " Mappings "
 """"""""""""
 
+" Normal mode in terminal
+:tnoremap <Esc> <C-\><C-n>
+
 " F2 toggle PASTE mode.
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -267,6 +267,8 @@ nnoremap <leader>l <c-^>
 map <Leader>s :w<CR>
 imap <Leader>s <C-o>:w<CR>
 
+map <Leader>t :tabnew<CR>
+imap <Leader>t <C-o>:tabnew<CR>
 """""""""""""
 " Auto CMDS "
 """""""""""""
@@ -304,7 +306,7 @@ set noerrorbells visualbell t_vb=
 " Theme "
 """""""""
 
-silent! colorscheme gruvbox
+silent! colorscheme dracula
 " Theme background color
 set background=dark
 
