@@ -1,111 +1,74 @@
-" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/caio
-set rtp+=~/.vim/bundle/Vundle.vim
 
-call vundle#begin()
-  Plugin 'gmarik/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
-  " Autocomplete
-  Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 
-  " Commenter
-  Plugin 'scrooloose/nerdcommenter'
+" Fuzzy finder
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
-  " Delimitador
-  Plugin 'Raimondi/delimitMate'
+Plug 'dracula/vim'
 
-  " Indent lines
-  Plugin 'Yggdroot/indentLine'
+Plug 'editorconfig/editorconfig-vim'
 
-  " CtrlP - find files
-  Plugin 'ctrlpvim/ctrlp.vim'
+" Delimitador
+Plug 'Raimondi/delimitMate'
 
-  " Matchit - opening and closing tags
-  Plugin 'geoffharcourt/vim-matchit'
+Plug 'tomtom/tcomment_vim'
 
-  " NERDTree
-  " Treeview of the project
-  Plugin 'scrooloose/nerdtree'
-  Plugin 'jistr/vim-nerdtree-tabs'
+Plug 'scrooloose/nerdtree'
 
-  " Surrounding quotes, brackets etc
-  Plugin 'tpope/vim-surround'
+" Surrounding quotes, brackets etc
+Plug 'tpope/vim-surround'
 
-  " Crystal Syntax
-  Plugin 'rhysd/vim-crystal'
+" Elixir syntax
+Plug 'elixir-lang/vim-elixir'
 
-  " Elixir syntax
-  Plugin 'elixir-lang/vim-elixir'
+" Information about Elixir project
+Plug 'slashmili/alchemist.vim'
 
-  " Information about Elixir project
-  Plugin 'slashmili/alchemist.vim'
+" Automatically insert the closing HTML tag
+Plug 'HTML-AutoCloseTag'
 
-  " Automatically insert the closing HTML tag
-  Plugin 'HTML-AutoCloseTag'
+" Emmet html
+Plug 'mattn/emmet-vim'
 
-  " Emmet html
-  Plugin 'mattn/emmet-vim'
+Plug 'pangloss/vim-javascript'
+Plug 'heavenshell/vim-jsdoc'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'posva/vim-vue'
 
-  " Javascript
-  " JavaScript Syntax
-  Plugin 'pangloss/vim-javascript'
-  Plugin 'kchmck/vim-coffee-script'
-  Plugin 'heavenshell/vim-jsdoc'
-  " JSX syntax for React
-  Plugin 'maxmellon/vim-jsx-pretty'
-  " Typescript
-  Plugin 'HerringtonDarkholme/yats.vim'
-  Plugin 'mhartington/nvim-typescript', { 'do': './install.sh' }
-  " Ternjs for javascript
-  Plugin 'neoclide/tern-neovim', {'do': 'npm install && npm install -g tern'}
+" Markdown syntax
+Plug 'plasticboy/vim-markdown'
 
+" Ruby
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
 
-  " Markdown syntax
-  Plugin 'plasticboy/vim-markdown'
+" HEREDOC Syntax
+Plug 'joker1007/vim-ruby-heredoc-syntax'
 
-  " Ruby
-  Plugin 'vim-ruby/vim-ruby'
-  Plugin 'tpope/vim-rails'
+" SCSS syntax
+Plug 'cakebaker/scss-syntax.vim'
 
-  " HEREDOC Syntax
-  Plugin 'joker1007/vim-ruby-heredoc-syntax'
+" Git
+Plug 'tpope/vim-fugitive'
 
-  " SCSS syntax
-  Plugin 'cakebaker/scss-syntax.vim'
+" Linter
+Plug 'w0rp/ale'
 
-  " Slim Template syntax
-  Plugin 'slim-template/vim-slim.git'
+" The Silver Searcher
+Plug 'rking/ag.vim'
 
-  " Git
-  Plugin 'tpope/vim-fugitive'
+" Fold RSpec examples.
+Plug 'rlue/vim-fold-rspec'
 
-  " Gruvbox theme
-  Plugin 'morhetz/gruvbox'
-
-  " Dracula theme
-  Plugin 'dracula/vim'
-
-  " Powerline fonts
-  Plugin 'powerline/fonts'
-
-  " Linter
-  Plugin 'w0rp/ale'
-
-  " The Silver Searcher
-  Plugin 'rking/ag.vim'
-
-  " Fold RSpec examples.
-  Plugin 'rlue/vim-fold-rspec'
-
-  " Handle tag generation
-  Plugin 'ludovicchabant/vim-gutentags'
-
-  " Pug
-  Plugin 'digitaltoad/vim-pug'
-
-  " Line at bottom
-  Plugin 'itchyny/lightline.vim'
-call vundle#end()
+" Handle tag generation
+Plug 'ludovicchabant/vim-gutentags'
+call plug#end()
 
 """""""""""""
 " Functions "
@@ -196,6 +159,9 @@ set noswapfile
 set nobackup
 set nowb
 
+set ignorecase
+set smartcase
+
 syntax enable
 
 filetype on
@@ -239,7 +205,7 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-" Use C-j and C-k to navigate deoplete suggestions
+" Use C-j and C-k to navigate suggestions
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 
@@ -255,11 +221,6 @@ nnoremap gdiff :Gdiff<CR>
 nnoremap gb :Gblame<CR>
 vnoremap gb :Gblame<CR>
 
-" Move to the end of yanked text after yank and paste
-nnoremap p p`]
-vnoremap y y`]
-vnoremap p p`]
-
 " Toggle between last 2 buffers
 nnoremap <leader>l <c-^>
 
@@ -269,6 +230,8 @@ imap <Leader>s <C-o>:w<CR>
 
 map <Leader>t :tabnew<CR>
 imap <Leader>t <C-o>:tabnew<CR>
+
+
 """""""""""""
 " Auto CMDS "
 """""""""""""
@@ -307,28 +270,163 @@ set noerrorbells visualbell t_vb=
 """""""""
 
 silent! colorscheme dracula
-" Theme background color
-set background=dark
 
 """""""""""""""""""""""""
 " Plugins configuration "
 """""""""""""""""""""""""
 
 " Ale
-let g:ale_linters = {'javascript': ['eslint']}                                 "Lint js with eslint
-let g:ale_fixers = {'javascript': ['eslint']}                                 "Lint js with eslint
-let g:ale_lint_on_save = 1                                                     "Lint when saving a file
-let g:ale_sign_error = '✘'                                                     "Lint error sign
-let g:ale_sign_warning = '⚠️'                                                   "Lint warning sign
+"Lint js with eslint
+let g:ale_linters = {'javascript': ['eslint']}
+"Lint js with eslint
+let g:ale_fixers = {'javascript': ['eslint']}
+"Lint when saving a file
+let g:ale_lint_on_save = 1
+let g:ale_sign_error = 'X'
+let g:ale_sign_warning = '>'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
-" Ctrlp
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = '\v[\/](_build|deps|dist|DS_Store|node_modules|tmp|target)|(\.(beam|git|ico|snap|svn|swp))$'
-let g:ctrlp_max_files = 0
-let g:ctrlp_show_hidden = 1
+" COC
+  " TextEdit might fail if hidden is not set.
+  set hidden
+
+  " Some servers have issues with backup files, see #649.
+  set nobackup
+  set nowritebackup
+
+  " Give more space for displaying messages.
+  set cmdheight=2
+
+  " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+  " delays and poor user experience.
+  set updatetime=300
+
+  " Don't pass messages to |ins-completion-menu|.
+  set shortmess+=c
+
+  " Always show the signcolumn, otherwise it would shift the text each time
+  " diagnostics appear/become resolved.
+  set signcolumn=yes
+
+  " Use tab for trigger completion with characters ahead and navigate.
+  " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+  " other plugin before putting this into your config.
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  " Use <c-space> to trigger completion.
+  inoremap <silent><expr> <c-space> coc#refresh()
+
+  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+  " position. Coc only does snippet and additional edit on confirm.
+  if exists('*complete_info')
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+  else
+    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  endif
+
+  " Use `[g` and `]g` to navigate diagnostics
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+  " GoTo code navigation.
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+
+  " Use K to show documentation in preview window.
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  " Highlight the symbol and its references when holding the cursor.
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  " Symbol renaming.
+  nmap <leader>rn <Plug>(coc-rename)
+
+  " Formatting selected code.
+  xmap <leader>f  <Plug>(coc-format-selected)
+  nmap <leader>f  <Plug>(coc-format-selected)
+
+  augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  augroup end
+
+  " Applying codeAction to the selected region.
+  " Example: `<leader>aap` for current paragraph
+  xmap <leader>a  <Plug>(coc-codeaction-selected)
+  nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+  " Remap keys for applying codeAction to the current line.
+  nmap <leader>ac  <Plug>(coc-codeaction)
+  " Apply AutoFix to problem on the current line.
+  nmap <leader>qf  <Plug>(coc-fix-current)
+
+  " Introduce function text object
+  " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+  xmap if <Plug>(coc-funcobj-i)
+  xmap af <Plug>(coc-funcobj-a)
+  omap if <Plug>(coc-funcobj-i)
+  omap af <Plug>(coc-funcobj-a)
+
+  " Use <TAB> for selections ranges.
+  " NOTE: Requires 'textDocument/selectionRange' support from the language server.
+  " coc-tsserver, coc-python are the examples of servers that support it.
+  nmap <silent> <TAB> <Plug>(coc-range-select)
+  xmap <silent> <TAB> <Plug>(coc-range-select)
+
+  " Add `:Format` command to format current buffer.
+  command! -nargs=0 Format :call CocAction('format')
+
+  " Add `:Fold` command to fold current buffer.
+  command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+  " Add `:OR` command for organize imports of the current buffer.
+  command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+  " Add (Neo)Vim's native statusline support.
+  " NOTE: Please see `:h coc-status` for integrations with external plugins that
+  " provide custom statusline: lightline.vim, vim-airline.
+  set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+  " Mappings using CoCList:
+  " Show all diagnostics.
+  nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+  " Manage extensions.
+  nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+  " Show commands.
+  nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+  " Find symbol of current document.
+  nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+  " Search workspace symbols.
+  nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+  " Do default action for next item.
+  nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+  " Do default action for previous item.
+  nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+  " Resume latest coc list.
+  nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " Delimit
 augroup mydelimitMate
@@ -339,48 +437,11 @@ augroup mydelimitMate
   au FileType python let b:delimitMate_nesting_quotes = ['"', "'"]
 augroup END
 
-" Deoplete
-set previewheight=5
-set wildmode=list:full
-"stuff to ignore when tab completing
-set wildignore=*.o,*.obj,*~
-set wildignore+=*vim/backups*
-set wildignore+=*node_modules/**
-set wildignore+=*DS_Store*
-set wildignore+=*.gem
-set wildignore+=log/**
-set wildignore+=tmp/**
-set wildignore+=*.png,*.jpg,*.gif
-
-let g:python_host_prog  = '/usr/bin/python'
-let g:python3_host_prog = '/usr/bin/python3'
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1                                           "Enable deoplete smartcase autocompletion
-let g:deoplete#max_list = 20                                                   "Max autocompletion list
-call deoplete#custom#option('auth_refresh_delay', 0)
-
 " Emmet
 let g:user_emmet_leader_key='<C-y>'
 
-" Lightline
-let g:lightline = {
-\     'colorscheme': 'wombat',
-\   }
-
-let g:lightline = {
-\     'active': {
-\       'left': [ [ 'mode', 'paste' ],
-\                 [ 'readonly', 'filename' ] ],
-\     },
-\     'component_function': {
-\       'filename': 'FilenameForLightline',
-\     },
-\   }
-let g:user_emmet_settings = {
-\     'javascript' : {
-\       'extends' : 'jsx',
-\     },
-\   }
+" FZF
+map <C-p> :Files<CR>
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1

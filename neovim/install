@@ -3,16 +3,29 @@
 set -e
 
 sudo chown -R $(whoami) ~/.vim || echo "Nothing to do re: .vim folder"
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim || echo 'Vundle dir already exists.'
-sudo apt-get install -y software-properties-common
-sudo add-apt-repository ppa:neovim-ppa/stable
-sudo apt update
-sudo apt install -y neovim ttf-ancient-fonts
-sudo apt-get install -y python-dev python-pip python3-dev python3-pip
+
+
+sudo apt install -y python2 \
+                    ttf-ancient-fonts \
+                    xclip
+sudo apt-get install -y python3-dev python3-pip
 sudo apt install ctags
+
+which curl || sudo apt install curl
+
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+(
+  mkdir -p ~/.local/bin &&
+  cd ~/.local/bin &&
+  curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage &&
+  mv nvim.appimage nvim
+)
+
 npm install -g neovim
 npm install -g typescript
-pip2 install neovim
+
 pip3 install neovim
 
 DIR=$(dirname "$(readlink -f "$0")")
@@ -20,7 +33,6 @@ DIR=$(dirname "$(readlink -f "$0")")
 mkdir -p /home/$USER/.config/nvim
 
 ln -s $DIR/.nvimrc ~/.config/nvim/init.vim
-ln -s $DIR/.vimrc ~/.config/nvim/init.vim
 ln -s $DIR ~/.vim/
 
 echo 'Done.'
