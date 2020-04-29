@@ -5,7 +5,7 @@ sudo apt-get install -y libssl-dev libreadline-dev
 sudo apt-get install -y zlib1g-dev
 
 asdf plugin-add ruby
-asdf install ruby 2.5.3
-asdf global ruby 2.5.3
+asdf install ruby 2.7.1
+asdf global ruby 2.7.1
 
 gem install bundler -v '~> 1.0'
