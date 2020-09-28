@@ -9,3 +9,6 @@ asdf install ruby 2.7.1
 asdf global ruby 2.7.1
 
 gem install bundler -v '~> 1.0'
+gem install rubocop
+gem install reek
+gem install solargraph
