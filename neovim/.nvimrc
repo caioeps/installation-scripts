@@ -20,6 +20,8 @@ Plug 'tomtom/tcomment_vim'
 
 Plug 'scrooloose/nerdtree'
 
+Plug 'itchyny/lightline.vim'
+
 " Surrounding quotes, brackets etc
 Plug 'tpope/vim-surround'
 
@@ -28,9 +30,6 @@ Plug 'elixir-lang/vim-elixir'
 
 " Information about Elixir project
 Plug 'slashmili/alchemist.vim'
-
-" Automatically insert the closing HTML tag
-Plug 'HTML-AutoCloseTag'
 
 " Emmet html
 Plug 'mattn/emmet-vim'
@@ -56,6 +55,9 @@ Plug 'cakebaker/scss-syntax.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'tommcdo/vim-fubitive'
 
 " Linter
 Plug 'w0rp/ale'
@@ -82,7 +84,12 @@ function! StripTrailingWhitespaces()
 endfunction
 
 " Show full path of filename
-function! FilenameForLightline()
+function! LightlineFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
   return expand('%')
 endfunction
 
@@ -161,6 +168,9 @@ set nowb
 
 set ignorecase
 set smartcase
+
+set cursorcolumn
+set cursorline
 
 syntax enable
 
@@ -442,6 +452,13 @@ let g:user_emmet_leader_key='<C-y>'
 
 " FZF
 map <C-p> :Files<CR>
+
+" Lightline
+let g:lightline = {
+      \ 'component_function': {
+      \   'filename': 'LightlineFilename',
+      \ }
+      \ }
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1
