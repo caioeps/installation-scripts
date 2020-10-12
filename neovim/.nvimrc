@@ -34,6 +34,8 @@ Plug 'slashmili/alchemist.vim'
 " Emmet html
 Plug 'mattn/emmet-vim'
 
+Plug 'alvan/vim-closetag'
+
 Plug 'pangloss/vim-javascript'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'maxmellon/vim-jsx-pretty'
@@ -171,6 +173,8 @@ set smartcase
 
 set cursorcolumn
 set cursorline
+
+set iskeyword+=\-
 
 syntax enable
 
@@ -479,3 +483,7 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 nnoremap <Leader>hf :NERDTreeFind<CR>
 " Open NERDTree
 nnoremap <Leader>n :NERDTreeToggle<CR>
+
+" Vim close-tag
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.vue,*.jsx'
+let g:closetag_emptyTags_caseSensitive = 1
