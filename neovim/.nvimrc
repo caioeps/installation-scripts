@@ -175,6 +175,8 @@ set cursorcolumn
 set cursorline
 
 set iskeyword+=\-
+set iskeyword+=\?
+set iskeyword+=\!
 
 syntax enable
 
