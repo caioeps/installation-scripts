@@ -37,6 +37,7 @@ Plug 'mattn/emmet-vim'
 Plug 'alvan/vim-closetag'
 
 Plug 'pangloss/vim-javascript'
+Plug '/peitalin/vim-jsx-typescript'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
@@ -144,7 +145,7 @@ set autoindent
 set nowrap
 
 " Highlight max line length
-set colorcolumn=90
+set colorcolumn=120
 
 " Set up new splits positions
 set splitright
@@ -262,7 +263,7 @@ autocmd BufRead,BufNewFile *.eex set filetype=eelixir
 " Javascript
 autocmd BufRead,BufNewFile *.coffee   setlocal filetype=coffee
 autocmd BufRead,BufNewFile *.js.erb   setlocal filetype=javascript
-autocmd BufRead,BufNewFile *.ts,*.tsx setlocal filetype=typescript
+autocmd BufRead,BufNewFile *.ts       setlocal filetype=typescript
 autocmd BufRead,BufNewFile *.json     setlocal filetype=javascript
 autocmd BufRead,BufNewFile *.jsx      setlocal filetype=javascript
 
