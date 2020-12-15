@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -e
+
+sudo apt install bash-completion
+
+curl https://raw.githubusercontent.com/cykerway/complete-alias/master/complete_alias > complete_alias
+cat complete_alias > .bash_completion
+
+cat << EOF >> .bash_completion
+  complete -F _complete_alias media
+  complete -F _complete_alias wifi
+
+  complete -F _complete_alias g
+  complete -F _complete_alias gd
+  complete -F _complete_alias gst
+  complete -F _complete_alias gco
+  complete -F _complete_alias gdiff
+  complete -F _complete_alias dco
+EOF
+
+rm complete_alias
+
+rm ~/.bashrc_profile || echo "No .bashrc_profile found."
+rm ~/.bash_completion || echo "No .bash_completion found."
+
+DIR=$(dirname "$(readlink -f "$0")")
+
+ln -s $DIR/.bashrc_profile ~/.bashrc_profile
+
+cp ./.bash_completion ~/.bash_completion
+
+rm .bash_completion
+
+echo "source ~/.bashrc_profile" >> ~/.bashrc
+echo "source ~/.bash_completion" >> ~/.bashrc
+
+echo 'Done.'

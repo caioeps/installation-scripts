@@ -1,0 +1,24 @@
+export PS1='\[$(tput bold)\]\[\033[38;5;10m\]\u\[$(tput sgr0)\] \[$(tput bold)\]@\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;39m\]\W\[$(tput sgr0)\]\[$(tput bold)\]`__git_ps1`\n→ \[$(tput sgr0)\] \[$(tput sgr0)\]'
+
+export EDITOR='nvim'
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash
+
+alias media="playerctl"
+alias wifi="nmcli dev wifi"
+
+alias g="git"
+alias gd="git diff"
+alias gst="git status"
+alias gco="git checkout"
+alias gbr="git branch | grep -F '*' | colrm 1 2"
+alias gdiff="git diff"
+alias glog="git log --first-parent --graph --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %C(cyan)(%cr) %Cresetby %C(bold blue)%aN%Creset' --abbrev-commit --date=relative --branches"
+alias ggpull='git pull origin "$(gbr)"'
+alias ggpush='git push origin "$(gbr)"'
+
+alias b="bundle exec"
+
+alias dco="docker-compose"
