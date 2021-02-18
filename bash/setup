@@ -21,18 +21,15 @@ EOF
 
 rm complete_alias
 
-rm ~/.bashrc_profile || echo "No .bashrc_profile found."
 rm ~/.bash_completion || echo "No .bash_completion found."
 
 DIR=$(dirname "$(readlink -f "$0")")
 
-ln -s $DIR/.bashrc_profile ~/.bashrc_profile
-
+cp $DIR/.bashrc ~/.bashrc
 cp ./.bash_completion ~/.bash_completion
 
 rm .bash_completion
 
-echo "source ~/.bashrc_profile" >> ~/.bashrc
 echo "source ~/.bash_completion" >> ~/.bashrc
 
 echo 'Done.'
