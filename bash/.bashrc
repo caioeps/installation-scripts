@@ -140,3 +140,5 @@ alias ggpush='git push origin "$(gbr)"'
 alias b="bundle exec"
 
 alias dco="docker-compose"
+
+export PATH="$PATH:/home/$USER/.local/bin"
