@@ -137,6 +137,11 @@ alias glog="git log --first-parent --graph --pretty=format:'%C(yellow)%h%Creset 
 alias ggpull='git pull origin "$(gbr)"'
 alias ggpush='git push origin "$(gbr)"'
 
+alias cloudsniff="cd ~/workspace/intricately/cloudsniff"
+alias assistant="cd ~/workspace/intricately/ce-assistant"
+alias dash="cd ~/workspace/intricately/dash-v2"
+alias installation-scripts="cd ~/workspace/caioeps/installation-scripts"
+
 alias b="bundle exec"
 
 alias dco="docker-compose"
