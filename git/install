@@ -13,4 +13,5 @@ os.system('git config --global user.email %s' % email)
 
 os.system("git config --global core.excludesfile '~/.gitignore' ")
 os.system("echo 'tags' >> ~/.gitignore")
+os.system("echo 'tags.*' >> ~/.gitignore")
 os.system("echo '**/*.swp' >> ~/.gitignore")
