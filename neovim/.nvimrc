@@ -294,13 +294,22 @@ silent! colorscheme dracula
 
 " Ale
 "Lint js with eslint
-let g:ale_linters = {'javascript': ['eslint']}
+let g:ale_linters = {
+      \ 'javascript': ['eslint', 'prettier'],
+      \ 'vue': ['eslint', 'prettier'],
+      \ 'css': ['prettier']
+      \}
 "Lint js with eslint
-let g:ale_fixers = {'javascript': ['eslint']}
+let g:ale_fixers = {
+      \ 'javascript': ['eslint', 'prettier'],
+      \ 'vue': ['eslint', 'prettier'],
+      \ 'css': ['prettier']
+      \}
 "Lint when saving a file
 let g:ale_lint_on_save = 1
 let g:ale_sign_error = 'X'
 let g:ale_sign_warning = '>'
+let g:ale_linters_explicit = 1
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
@@ -421,6 +430,12 @@ highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
   " Add `:OR` command for organize imports of the current buffer.
   command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+  " Add `:Prettier` command for formatting file
+  command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+
+  " Add `:Eslint` command for formatting file
+  command! -nargs=0 Eslint :call CocAction('runCommand', 'eslint.executeAutofix')
 
   " Add (Neo)Vim's native statusline support.
   " NOTE: Please see `:h coc-status` for integrations with external plugins that
