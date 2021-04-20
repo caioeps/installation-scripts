@@ -133,7 +133,7 @@ alias gst="git status"
 alias gco="git checkout"
 alias gbr="git branch | grep -F '*' | colrm 1 2"
 alias gdiff="git diff"
-alias glog="git log --first-parent --graph --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %C(cyan)(%cr) %Cresetby %C(bold blue)%aN%Creset' --abbrev-commit --date=relative --branches"
+alias glog="git log --first-parent --graph --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %C(cyan)(%cr) %Cresetby %C(bold blue)%aN%Creset' --date=relative"
 alias ggpull='git pull origin "$(gbr)"'
 alias ggpush='git push origin "$(gbr)"'
 
