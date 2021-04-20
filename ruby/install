@@ -12,3 +12,4 @@ gem install bundler -v '~> 1.0'
 gem install rubocop
 gem install reek
 gem install solargraph
+gem install rufo
