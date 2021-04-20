@@ -96,6 +96,15 @@ function! LightlineFilename()
   return expand('%')
 endfunction
 
+function! SyntaxTurnOff()
+  "Turns syntax off only in current buffer
+  exec "syntax clear"
+endfunction
+
+function! SyntaxTurnOn()
+  exec "syntax on"
+endfunction
+
 """"""""
 " Sets "
 """"""""
@@ -264,7 +273,6 @@ autocmd BufRead,BufNewFile *.eex set filetype=eelixir
 autocmd BufRead,BufNewFile *.coffee   setlocal filetype=coffee
 autocmd BufRead,BufNewFile *.js.erb   setlocal filetype=javascript
 autocmd BufRead,BufNewFile *.ts       setlocal filetype=typescript
-autocmd BufRead,BufNewFile *.json     setlocal filetype=javascript
 autocmd BufRead,BufNewFile *.jsx      setlocal filetype=javascript
 
 " Slim
@@ -297,13 +305,17 @@ silent! colorscheme dracula
 let g:ale_linters = {
       \ 'javascript': ['eslint', 'prettier'],
       \ 'vue': ['eslint', 'prettier'],
-      \ 'css': ['prettier']
+      \ 'css': ['prettier'],
+      \ 'json': ['jq'],
+      \ 'ruby': ['rubocop', 'reek'],
       \}
 "Lint js with eslint
 let g:ale_fixers = {
       \ 'javascript': ['eslint', 'prettier'],
       \ 'vue': ['eslint', 'prettier'],
-      \ 'css': ['prettier']
+      \ 'css': ['prettier'],
+      \ 'json': ['jq'],
+      \ 'ruby': ['rubocop', 'reek'],
       \}
 "Lint when saving a file
 let g:ale_lint_on_save = 1
@@ -312,6 +324,12 @@ let g:ale_sign_warning = '>'
 let g:ale_linters_explicit = 1
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+
+augroup ALEFixGroup
+    autocmd!
+    autocmd User ALEFixPre     call SyntaxTurnOff()
+    autocmd User ALEFixPost    call SyntaxTurnOn()
+augroup END
 
 " COC
   " TextEdit might fail if hidden is not set.
