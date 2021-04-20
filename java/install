@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 asdf plugin-add java
-asdf install java oracle-11.0.1
-asdf global java oracle-11.0.1
+asdf install java openjdk-16
+asdf global java openjdk-16
