@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+sudo apt install kitty
+
+git clone --depth 1 git@github.com:dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
+
+DIR=$(dirname "$(readlink -f "$0")")
+
+mkdir -p /home/$USER/.config/kitty
+ln -s $DIR/kitty.conf ~/.config/kitty/kitty.conf
+
+cd ~/.config/kitty
+ln -s ./kitty-themes/themes/Dracula.conf ~/.config/kitty/theme.conf
