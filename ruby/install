@@ -10,6 +10,7 @@ asdf global ruby 3.0.0
 
 gem install bundler -v '~> 1.0'
 gem install rubocop
+gem install rubocop-performance
 gem install reek
 gem install solargraph
 gem install rufo
