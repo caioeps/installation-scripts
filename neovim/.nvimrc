@@ -181,12 +181,14 @@ set nowb
 set ignorecase
 set smartcase
 
-set cursorcolumn
-set cursorline
+" set cursorcolumn
+" set cursorline
 
 set iskeyword+=\-
 set iskeyword+=\?
 set iskeyword+=\!
+
+set synmaxcol=200
 
 syntax enable
 
