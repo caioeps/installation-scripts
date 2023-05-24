@@ -1,28 +1,28 @@
 feat/fix/chore/refactor/docs/style/revert/build/perf/ci/hotfix: (Ticket Number) Summary, imperative, start upper case, don't end with a period
 # 50 char threshold here ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-# Description:
-
-TBD
-
-# Summary of changes
-
-* TBD
-
-# Breaking Changes ⚠️
-
-* TBD
-
-# Links
-
-* TBD
-
-# At the end: Include Co-authored-by for all contributors.
-# Include at least one empty line before it. Format:
-# Co-authored-by: name <user@users.noreply.github.com>
 #
-# How to Write a Git Commit Message:
-# https://chris.beams.io/posts/git-commit/
+# feat: (new feature for the user, not a new feature for build script)
+# fix: (bug fix for the user, not a fix to a build script)
+# docs: (changes to the documentation)
+# style: (formatting, missing semi colons, etc; no production code change)
+# refactor: (refactoring production code, eg. renaming a variable)
+# test: (adding missing tests, refactoring tests; no production code change)
+# chore: (updating grunt tasks etc; no production code change)
+
+# # Description:
+#   * TBD
+#
+# # Summary of changes
+#   * TBD
+#
+# # Breaking Changes ⚠️
+#   * TBD
+#
+# # Links
+#   * TBD
+#
+# # Co-Authors
+# Co-authored-by: name <user@users.noreply.github.com>
 #
 # 1. Separate subject from body with a blank line
 # 2. Limit the subject line to 50 characters
