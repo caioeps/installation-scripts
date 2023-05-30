@@ -216,38 +216,6 @@ use {
     end
   }
 
---   ______
---  /_  __/_______  ___
---   / / / ___/ _ \/ _ \
---  / / / /  /  __/  __/
--- /_/ /_/   \___/\___/
-
-  use {
-    'nvim-tree/nvim-tree.lua',
-    requires = {
-      'nvim-tree/nvim-web-devicons', -- optional
-    },
-    config = function()
-      require("nvim-tree").setup({
-        sort_by = "case_sensitive",
-        view = {
-          width = 40,
-        },
-        renderer = {
-          group_empty = true,
-        },
-        filters = {
-          dotfiles = true,
-        },
-      })
-
-      vim.cmd [[
-        nnoremap <Leader>hh :NvimTreeToggle<CR>
-        nnoremap <Leader>hf :NvimTreeFindFile<CR>
-      ]]
-    end
-  }
-
 --   ______     __
 --  /_  __/__  / /__  ______________  ____  ___
 --   / / / _ \/ / _ \/ ___/ ___/ __ \/ __ \/ _ \
@@ -261,10 +229,72 @@ use {
       {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
       {'nvim-telescope/telescope-live-grep-args.nvim'},
       {'gbrlsnchs/telescope-lsp-handlers.nvim'},
+      {'nvim-telescope/telescope-file-browser.nvim'},
     },
     config = function()
+      local fb_actions = require "telescope".extensions.file_browser.actions
+
       require('telescope').setup({
         extensions = {
+          file_browser = {
+            -- path
+            -- cwd
+            cwd_to_path = false,
+            grouped = true,
+            files = true,
+            add_dirs = true,
+            depth = 1,
+            auto_depth = false,
+            select_buffer = false,
+            hidden = { file_browser = false, folder_browser = false },
+            -- respect_gitignore
+            -- browse_files
+            -- browse_folders
+            hide_parent_dir = false,
+            collapse_dirs = false,
+            prompt_path = false,
+            quiet = false,
+            dir_icon = "",
+            dir_icon_hl = "Default",
+            display_stat = { date = true, size = true, mode = true },
+            hijack_netrw = false,
+            use_fd = true,
+            git_status = true,
+            mappings = {
+              ["i"] = {
+                ["<A-c>"] = fb_actions.create,
+                ["<S-CR>"] = fb_actions.create_from_prompt,
+                ["<A-r>"] = fb_actions.rename,
+                ["<A-m>"] = fb_actions.move,
+                ["<A-y>"] = fb_actions.copy,
+                ["<A-d>"] = fb_actions.remove,
+                ["<C-o>"] = fb_actions.open,
+                ["<C-g>"] = fb_actions.goto_parent_dir,
+                ["<C-e>"] = fb_actions.goto_home_dir,
+                ["<C-w>"] = fb_actions.goto_cwd,
+                ["<C-t>"] = fb_actions.change_cwd,
+                ["<C-f>"] = fb_actions.toggle_browser,
+                ["<C-h>"] = fb_actions.toggle_hidden,
+                ["<C-s>"] = fb_actions.toggle_all,
+                ["<bs>"] = fb_actions.backspace,
+              },
+              ["n"] = {
+                ["c"] = fb_actions.create,
+                ["r"] = fb_actions.rename,
+                ["m"] = fb_actions.move,
+                ["y"] = fb_actions.copy,
+                ["d"] = fb_actions.remove,
+                ["o"] = fb_actions.open,
+                ["g"] = fb_actions.goto_parent_dir,
+                ["e"] = fb_actions.goto_home_dir,
+                ["w"] = fb_actions.goto_cwd,
+                ["t"] = fb_actions.change_cwd,
+                ["f"] = fb_actions.toggle_browser,
+                ["h"] = fb_actions.toggle_hidden,
+                ["s"] = fb_actions.toggle_all,
+              },
+            },
+          },
           lsp_handlers = {
             disable = {},
             location = {
@@ -290,6 +320,7 @@ use {
       require('telescope').load_extension('live_grep_args')
       require('telescope').load_extension('fzf')
       require('telescope').load_extension('lsp_handlers')
+      require('telescope').load_extension('file_browser')
 
       vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, {})
       vim.keymap.set("n", "<leader>fg", require('telescope').extensions.live_grep_args.live_grep_args)
@@ -298,6 +329,21 @@ use {
       vim.keymap.set('n', '<leader>fr', require('telescope.builtin').resume, {})
 
       vim.keymap.set('n', '<leader>fo', require('telescope.builtin').lsp_document_symbols, {})
+
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>ft",
+        ":Telescope file_browser initial_mode=normal<CR>",
+        { noremap = true }
+      )
+
+      -- open file_browser with the path of the current buffer
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>fT",
+        ":Telescope file_browser path=%:p:h select_buffer=true initial_mode=normal<CR>",
+        { noremap = true }
+      )
     end
   }
 
