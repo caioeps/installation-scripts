@@ -1,3 +1,17 @@
+--     ____  _________    ____  __  _________
+--    / __ \/ ____/   |  / __ \/  |/  / ____/
+--   / /_/ / __/ / /| | / / / / /|_/ / __/
+--  / _, _/ /___/ ___ |/ /_/ / /  / / /___
+-- /_/ |_/_____/_/  |_/_____/_/  /_/_____/
+--
+-- # Prerequesites:
+--
+-- 1. npm i -g vscode-langservers-extracted typescript typescript-language-server
+-- 2. gem install --user-install solargraph
+-- 3. Setup ElixirLS
+--   a. Download a release from https://github.com/elixir-lsp/elixir-ls/releases
+--   a. unzip ~/Downloads/RELEASE_FILE.zip -d ~/.elixir-ls
+
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
@@ -13,21 +27,200 @@ local packer_bootstrap = ensure_packer()
 
 vim.cmd [[packadd packer.nvim]]
 
---  _____  _             _
--- |  __ \| |           (_)
--- | |__) | |_   _  __ _ _ _ __  ___
--- |  ___/| | | | |/ _` | | '_ \/ __|
--- | |    | | |_| | (_| | | | | \__ \
--- |_|    |_|\__,_|\__, |_|_| |_|___/
---                  __/ |
---                 |___/
+-- ASCII generator
+-- https://patorjk.com/software/taag/#p=display&f=Big&t=Type%20Something%20
+-- https://patorjk.com/software/taag/#p=display&f=Slant&t=Lualine
+
 require('packer').startup(function(use)
   use "wbthomason/packer.nvim"
 
   use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    'ellisonleao/gruvbox.nvim',
+    config = function()
+      vim.o.background = "dark" -- or "light" for light mode
+      vim.cmd([[colorscheme gruvbox]])
+    end
   }
+
+--     __   _____ ____              __                                                _____                              ____             __                   __
+--    / /  / ___// __ \            / /   ____ _____  ____ ___  ______ _____ ____     / ___/___  ______   _____  _____   / __ \_________  / /_____  _________  / /
+--   / /   \__ \/ /_/ /  ______   / /   / __ `/ __ \/ __ `/ / / / __ `/ __ `/ _ \    \__ \/ _ \/ ___/ | / / _ \/ ___/  / /_/ / ___/ __ \/ __/ __ \/ ___/ __ \/ /
+--  / /______/ / ____/  /_____/  / /___/ /_/ / / / / /_/ / /_/ / /_/ / /_/ /  __/   ___/ /  __/ /   | |/ /  __/ /     / ____/ /  / /_/ / /_/ /_/ / /__/ /_/ / /
+-- /_____/____/_/               /_____/\__,_/_/ /_/\__, /\__,_/\__,_/\__, /\___/   /____/\___/_/    |___/\___/_/     /_/   /_/   \____/\__/\____/\___/\____/_/
+--                                                /____/            /____/
+use {
+  'neovim/nvim-lspconfig',
+  requires = {
+    -- {'williamboman/mason.nvim', run = ':MasonUpdate'},
+    -- {'williamboman/mason-lspconfig.nvim'},
+    {'jose-elias-alvarez/null-ls.nvim'}, -- Formatters and linters. e.g.: Prettier, Rubocop
+    {'hrsh7th/nvim-cmp'},
+    {'hrsh7th/cmp-nvim-lsp'},
+    {'nvim-lua/plenary.nvim'}, -- dependency for null-ls
+    -- {'L3MON4D3/LuaSnip'}
+  },
+  config = function()
+    -- require("mason").setup()
+
+    -- Setup language servers.
+    local lspconfig = require('lspconfig')
+
+    -- Global mappings.
+    -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+
+    -- Use LspAttach autocommand to only map the following keys
+    -- after the language server attaches to the current buffer
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+      callback = function(ev)
+        -- Enable completion triggered by <c-x><c-o>
+        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+        -- Buffer local mappings.
+        -- See `:help vim.lsp.*` for documentation on any of the below functions
+        local opts = { buffer = ev.buf }
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+        vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+        vim.keymap.set('n', '<space>wl', function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, opts)
+        vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+        vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', '<space>f', function()
+          vim.lsp.buf.format { async = true }
+        end, opts)
+      end,
+    })
+
+    local servers_with_default_config = { 'cssls', 'html', 'jsonls', 'rust_analyzer', 'solargraph', 'tsserver' }
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+    for _, lsp in ipairs(servers_with_default_config) do
+      lspconfig[lsp].setup {
+        -- on_attach = my_custom_on_attach,
+        capabilities = capabilities,
+      }
+    end
+
+    lspconfig.elixirls.setup {
+      cmd = { '/Users/caioergos/.elixir-ls/language_server.sh' },
+      capabilities = capabilities
+    }
+
+    local cmp = require('cmp')
+    cmp.setup {
+      -- snippet = {
+      --   expand = function(args)
+      --     luasnip.lsp_expand(args.body)
+      --   end,
+      -- },
+      mapping = cmp.mapping.preset.insert({
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+        ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+        -- C-b (back) C-f (forward) for snippet placeholder navigation.
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        },
+        ['<Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+            -- elseif luasnip.expand_or_jumpable() then
+            --   luasnip.expand_or_jump()
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+            -- elseif luasnip.jumpable(-1) then
+            --   luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
+      }),
+      sources = {
+        { name = 'nvim_lsp' },
+        -- { name = 'luasnip' },
+      },
+    }
+
+    require("null-ls").setup()
+  end
+}
+
+--       __                ___
+--    / /   __  ______ _/ (_)___  ___
+--   / /   / / / / __ `/ / / __ \/ _ \
+--  / /___/ /_/ / /_/ / / / / / /  __/
+-- /_____/\__,_/\__,_/_/_/_/ /_/\___/
+
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+    config = function()
+      require('lualine').setup {
+        options = {
+          icons_enabled = true,
+          theme = 'auto',
+          component_separators = { left = '', right = ''},
+          section_separators = { left = '', right = ''},
+          disabled_filetypes = {
+            statusline = {},
+            winbar = {},
+          },
+          ignore_focus = {},
+          always_divide_middle = true,
+          globalstatus = false,
+          refresh = {
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
+          }
+        },
+        sections = {
+          lualine_a = {'mode'},
+          lualine_b = {'branch', 'diff', 'diagnostics'},
+          lualine_c = {'filename'},
+          lualine_x = {'encoding', 'fileformat', 'filetype'},
+          lualine_y = {'progress'},
+          lualine_z = {'location'}
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {'filename'},
+          lualine_x = {'location'},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        tabline = {},
+        winbar = {},
+        inactive_winbar = {},
+        extensions = {}
+      }
+    end
+  }
+
+--   ______
+--  /_  __/_______  ___
+--   / / / ___/ _ \/ _ \
+--  / / / /  /  __/  __/
+-- /_/ /_/   \___/\___/
 
   use {
     'nvim-tree/nvim-tree.lua',
@@ -35,34 +228,105 @@ require('packer').startup(function(use)
       'nvim-tree/nvim-web-devicons', -- optional
     },
     config = function()
-      require("nvim-tree").setup {}
+      require("nvim-tree").setup({
+        sort_by = "case_sensitive",
+        view = {
+          width = 40,
+        },
+        renderer = {
+          group_empty = true,
+        },
+        filters = {
+          dotfiles = true,
+        },
+      })
+
+      vim.cmd [[
+        nnoremap <Leader>hh :NvimTreeToggle<CR>
+        nnoremap <Leader>hf :NvimTreeFindFile<CR>
+      ]]
     end
   }
 
-  use {
-    "neoclide/coc.nvim",
-    branch = "release",
-    run = "npm install --frozen-lockfile"
-  }
-
+--   ______     __
+--  /_  __/__  / /__  ______________  ____  ___
+--   / / / _ \/ / _ \/ ___/ ___/ __ \/ __ \/ _ \
+--  / / /  __/ /  __(__  ) /__/ /_/ / /_/ /  __/
+-- /_/  \___/_/\___/____/\___/\____/ .___/\___/
+--                                /_/
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.1',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = {
+      {'nvim-lua/plenary.nvim'},
+      {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+      {'nvim-telescope/telescope-live-grep-args.nvim'},
+      {'gbrlsnchs/telescope-lsp-handlers.nvim'},
+    },
+    config = function()
+      require('telescope').setup({
+        extensions = {
+          lsp_handlers = {
+            disable = {},
+            location = {
+              telescope = {},
+              no_results_message = 'No references found',
+            },
+            symbol = {
+              telescope = {},
+              no_results_message = 'No symbols found',
+            },
+            call_hierarchy = {
+              telescope = {},
+              no_results_message = 'No calls found',
+            },
+            code_action = {
+              telescope = require('telescope.themes').get_dropdown({}),
+              no_results_message = 'No code actions available',
+              prefix = '',
+            },
+          },
+        }
+      })
+      require('telescope').load_extension('live_grep_args')
+      require('telescope').load_extension('fzf')
+      require('telescope').load_extension('lsp_handlers')
+
+      vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, {})
+      vim.keymap.set("n", "<leader>fg", require('telescope').extensions.live_grep_args.live_grep_args)
+      vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, {})
+      vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, {})
+      vim.keymap.set('n', '<leader>fr', require('telescope.builtin').resume, {})
+
+      vim.keymap.set('n', '<leader>fo', require('telescope.builtin').lsp_document_symbols, {})
+    end
   }
 
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-
-  use 'tamton-aquib/staline.nvim'
+  use {'tamton-aquib/staline.nvim', config = function()
+    require('staline').setup()
+    require('stabline').setup()
+  end}
 
   use 'tpope/vim-surround'
 
   use 'mkitt/tabline.vim'
 
-  use 'vim-test/vim-test'
+  use {
+    'vim-test/vim-test',
+    config = function()
+      vim.cmd [[
+        let test#strategy = "neovim"
+        let test#neovim#term_position = "belowright"
+
+        nmap <silent> <leader>t :TestNearest<CR>
+        nmap <silent> <leader>T :TestFile<CR>
+        nmap <silent> <leader>a :TestSuite<CR>
+        nmap <silent> <leader>l :TestLast<CR>
+        nmap <silent> <leader>g :TestVisit<CR>
+      ]]
+    end
+  }
 
   use 'tomtom/tcomment_vim'
-
-  use 'dracula/vim'
 
   use 'editorconfig/editorconfig-vim'
 
@@ -72,44 +336,43 @@ require('packer').startup(function(use)
     require('git-conflict').setup()
   end}
 
-  -- Elixir
-  use 'elixir-lang/vim-elixir'
-  -- Still need to manually download ElixirLS onto ~/.vim/plugged/coc-elixir/els-release.
-  use {'elixir-lsp/coc-elixir', run = 'yarn install && yarn prepack'}
-
   -- Git
-  use 'tpope/vim-fugitive'
-  -- :GBrowse for GitHub
-  use 'tpope/vim-rhubarb'
-  -- :GBrowse for Gitlab
-  use 'shumphrey/fugitive-gitlab.vim'
-  -- :GBrowse for BitBucket
-  use 'tommcdo/vim-fubitive'
-  use {'akinsho/git-conflict.nvim', tag = "*", config = function()
-    require('git-conflict').setup()
-  end}
+  use {
+    'tpope/vim-fugitive',
+    requires = {
+      -- :GBrowse for GitHub
+      {'tpope/vim-rhubarb'},
+      -- :GBrowse for Gitlab
+      {'shumphrey/fugitive-gitlab.vim'},
+      -- :GBrowse for BitBucket
+      {'tommcdo/vim-fubitive'},
+      {'akinsho/git-conflict.nvim', tag = "*"}
+    },
+    config = function()
+      require('git-conflict').setup()
+      vim.keymap.set('n', '<leader>gs', ':vertical leftabove Git<CR>:vertical resize 90<CR>')
+    end
+  }
 
   -- HTML
   use 'mattn/emmet-vim'
   use 'alvan/vim-closetag'
 
-  -- JavaScript
-  use {'neoclide/coc-tsserver', run = 'yarn install --frozen-lockfile'}
-  use 'pangloss/vim-javascript'
-  use '/peitalin/vim-jsx-typescript'
-  use 'heavenshell/vim-jsdoc'
-  use 'maxmellon/vim-jsx-pretty'
-  use 'HerringtonDarkholme/yats.vim'
-  use 'posva/vim-vue'
-
-  -- Markdown syntax
-  use 'plasticboy/vim-markdown'
-
   -- Ruby
-  use 'vim-ruby/vim-ruby'
   use 'tpope/vim-rails'
   use 'joker1007/vim-ruby-heredoc-syntax'
   use 'rlue/vim-fold-rspec'
+
+  -- Syntax
+  use 'elixir-lang/vim-elixir'
+  use 'vim-ruby/vim-ruby'
+  use 'pangloss/vim-javascript'
+  use 'heavenshell/vim-jsdoc'
+  use '/peitalin/vim-jsx-typescript'
+  use 'plasticboy/vim-markdown'
+  use 'posva/vim-vue'
+  use 'HerringtonDarkholme/yats.vim'
+  use 'maxmellon/vim-jsx-pretty'
 
   -- Jump between test definition and source file
   use 'tpope/vim-projectionist'
@@ -119,49 +382,24 @@ require('packer').startup(function(use)
   -- Handle tag generation
   use 'ludovicchabant/vim-gutentags'
 
-  -- Visuals
-  use 'yuki-yano/coc-nav'
-
   -- Text editor
   use 'Raimondi/delimitMate'
+
+  use {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup({})
+    end
+  }
+
+  -- use {'dracula/vim', config = function()
+  --   vim.cmd "silent! colorscheme dracula"
+  -- end}
 
   if packer_bootstrap then
     require('packer').sync()
   end
 end)
-
-require('lualine').setup()
-
--- empty setup using defaults
--- require("nvim-tree").setup()
--- OR setup with some options
-require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  view = {
-    width = 40,
-  },
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    dotfiles = true,
-  },
-})
-
-require('telescope').setup()
--- require('telescope').load_extension('fzf')
-
-require('staline').setup()
-require('stabline').setup()
-
-
--- END OF Plugins
-
-
--- Disabling netrw messes up :GBrowse
--- disable netrw at the very start of your init.lua (strongly advised)
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
@@ -169,207 +407,6 @@ vim.opt.termguicolors = true
 vim.cmd [[
   set cursorline
 ]]
-
--- COC
---   _____ ____   _____
---  / ____/ __ \ / ____|
--- | |   | |  | | |
--- | |   | |  | | |
--- | |___| |__| | |____
---  \_____\____/ \_____|
--- Some servers have issues with backup files, see #649
-vim.opt.backup = false
-vim.opt.writebackup = false
-
--- Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
--- delays and poor user experience
-vim.opt.updatetime = 300
-
--- Always show the signcolumn, otherwise it would shift the text each time
--- diagnostics appeared/became resolved
-vim.opt.signcolumn = "yes"
-
-local keyset = vim.keymap.set
--- Autocomplete
-function _G.check_back_space()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-end
-
--- Use Tab for trigger completion with characters ahead and navigate
--- NOTE: There's always a completion item selected by default, you may want to enable
--- no select by setting `"suggest.noselect": true` in your configuration file
--- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
--- other plugins before putting this into your config
-local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-
--- Make <CR> to accept selected completion item or notify coc.nvim to format
--- <C-g>u breaks current undo, please make your own choice
-keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-
--- Use <c-j> to trigger snippets
-keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
--- Use <c-space> to trigger completion
-keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
-
--- Use `[g` and `]g` to navigate diagnostics
--- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
-keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
-
--- GoTo code navigation
-keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
-keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
-keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
-keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
-
-
--- Use K to show documentation in preview window
-function _G.show_docs()
-    local cw = vim.fn.expand('<cword>')
-    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
-        vim.api.nvim_command('h ' .. cw)
-    elseif vim.api.nvim_eval('coc#rpc#ready()') then
-        vim.fn.CocActionAsync('doHover')
-    else
-        vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
-    end
-end
-keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
-
-
--- Highlight the symbol and its references on a CursorHold event(cursor is idle)
-vim.api.nvim_create_augroup("CocGroup", {})
-vim.api.nvim_create_autocmd("CursorHold", {
-    group = "CocGroup",
-    command = "silent call CocActionAsync('highlight')",
-    desc = "Highlight symbol under cursor on CursorHold"
-})
-
-
--- Symbol renaming
-keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
-
-
--- Formatting selected code
-keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
-keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
-
-
--- Setup formatexpr specified filetype(s)
-vim.api.nvim_create_autocmd("FileType", {
-    group = "CocGroup",
-    pattern = "typescript,json",
-    command = "setl formatexpr=CocAction('formatSelected')",
-    desc = "Setup formatexpr specified filetype(s)."
-})
-
--- Update signature help on jump placeholder
-vim.api.nvim_create_autocmd("User", {
-    group = "CocGroup",
-    pattern = "CocJumpPlaceholder",
-    command = "call CocActionAsync('showSignatureHelp')",
-    desc = "Update signature help on jump placeholder"
-})
-
--- Apply codeAction to the selected region
--- Example: `<leader>aap` for current paragraph
-local opts = {silent = true, nowait = true}
-keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
-keyset("n", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
-
--- Remap keys for apply code actions at the cursor position.
-keyset("n", "<leader>ac", "<Plug>(coc-codeaction-cursor)", opts)
--- Remap keys for apply code actions affect whole buffer.
-keyset("n", "<leader>as", "<Plug>(coc-codeaction-source)", opts)
--- Remap keys for applying codeActions to the current buffer
-keyset("n", "<leader>ac", "<Plug>(coc-codeaction)", opts)
--- Apply the most preferred quickfix action on the current line.
-keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", opts)
-
--- Remap keys for apply refactor code actions.
-keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
-keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-
--- Run the Code Lens actions on the current line
-keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
-
-
--- Map function and class text objects
--- NOTE: Requires 'textDocument.documentSymbol' support from the language server
-keyset("x", "if", "<Plug>(coc-funcobj-i)", opts)
-keyset("o", "if", "<Plug>(coc-funcobj-i)", opts)
-keyset("x", "af", "<Plug>(coc-funcobj-a)", opts)
-keyset("o", "af", "<Plug>(coc-funcobj-a)", opts)
-keyset("x", "ic", "<Plug>(coc-classobj-i)", opts)
-keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
-keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
-keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
-
-
--- Remap <C-f> and <C-b> to scroll float windows/popups
----@diagnostic disable-next-line: redefined-local
-local opts = {silent = true, nowait = true, expr = true}
-keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-keyset("i", "<C-f>",
-       'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
-keyset("i", "<C-b>",
-       'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
-keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-keyset("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-
-
--- Use CTRL-S for selections ranges
--- Requires 'textDocument/selectionRange' support of language server
-keyset("n", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
-keyset("x", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
-
-
--- Add `:Format` command to format current buffer
-vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
-
--- " Add `:Fold` command to fold current buffer
-vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", {nargs = '?'})
-
--- Add `:OR` command for organize imports of the current buffer
-vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
-
--- Add (Neo)Vim's native statusline support
--- NOTE: Please see `:h coc-status` for integrations with external plugins that
--- provide custom statusline: lightline.vim, vim-airline
-vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
-
--- Mappings for CoCList
--- code actions and coc stuff
----@diagnostic disable-next-line: redefined-local
-local opts = {silent = true, nowait = true}
--- Show all diagnostics
-keyset("n", "<space>a", ":<C-u>CocList diagnostics<cr>", opts)
--- Manage extensions
-keyset("n", "<space>e", ":<C-u>CocList extensions<cr>", opts)
--- Show commands
-keyset("n", "<space>c", ":<C-u>CocList commands<cr>", opts)
--- Find symbol of current document
-keyset("n", "<space>o", ":<C-u>CocList outline<cr>", opts)
--- Search workspace symbols
-keyset("n", "<space>s", ":<C-u>CocList -I symbols<cr>", opts)
--- Do default action for next item
-keyset("n", "<space>j", ":<C-u>CocNext<cr>", opts)
--- Do default action for previous item
-keyset("n", "<space>k", ":<C-u>CocPrev<cr>", opts)
--- Resume latest coc list
-keyset("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
-
---   _____ ____   _____                  _
---  / ____/ __ \ / ____|                | |
--- | |   | |  | | |        ___ _ __   __| |
--- | |   | |  | | |       / _ \ '_ \ / _` |
--- | |___| |__| | |____  |  __/ | | | (_| |
---  \_____\____/ \_____|  \___|_| |_|\__,_|
 
 --  _  __                                        _
 -- | |/ /                                       (_)
@@ -407,37 +444,16 @@ vim.cmd [[
     :cmap <ESC>f el
   endif
 ]]
-
-local telescope = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', telescope.find_files, {})
-vim.keymap.set('n', '<leader>fg', telescope.live_grep, {})
-vim.keymap.set('n', '<leader>fb', telescope.buffers, {})
-vim.keymap.set('n', '<leader>fh', telescope.help_tags, {})
-vim.keymap.set('n', '<leader>fr', telescope.resume, {})
-
-vim.keymap.set('n', '<leader>gs', ':vertical leftabove Git<CR>:vertical resize 90<CR>')
-
-vim.cmd [[
-  :nmap , <leader>
-
-  let test#strategy = "neovim"
-  let test#neovim#term_position = "vert botright 80"
-
-  nmap <silent> <leader>t :TestNearest<CR>
-  nmap <silent> <leader>T :TestFile<CR>
-  nmap <silent> <leader>a :TestSuite<CR>
-  nmap <silent> <leader>l :TestLast<CR>
-  nmap <silent> <leader>g :TestVisit<CR>
-
-  " Disable arrow keys
-  noremap <Up> <NOP>
-  noremap <Down> <NOP>
-  noremap <Left> <NOP>
-  noremap <Right> <NOP>
-]]
-
 -- end of key mappings
 
+
+-- Terminal
+vim.g.terminal_scrollback_buffer_size = 100000
+vim.cmd [[
+  " Normal mode in terminal
+  :tnoremap <Esc> <C-\><C-n>
+  set scrollback=100000
+]]
 
 -- OLD init.vim
 --
@@ -582,9 +598,6 @@ vim.cmd [[
   "            __/ |                 | |   | |             __/ |
   "           |___/                  |_|   |_|            |___/
 
-  " Normal mode in terminal
-  :tnoremap <Esc> <C-\><C-n>
-
   " Go to pane below
   nnoremap <C-J> <C-W><C-J>
   " Go to pane above
@@ -602,6 +615,12 @@ vim.cmd [[
   " Use C-j and C-k to navigate suggestions
   inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
   inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+  " Disable arrow keys
+  noremap <Up> <NOP>
+  noremap <Down> <NOP>
+  noremap <Left> <NOP>
+  noremap <Right> <NOP>
 
   """""""""""""
   " Auto CMDS "
@@ -635,15 +654,6 @@ vim.cmd [[
   " Disable annoying sound
   set noerrorbells visualbell t_vb=
 
-  " Theme
-  "  _______ _
-  " |__   __| |
-  "    | |  | |__   ___ _ __ ___   ___
-  "    | |  | '_ \ / _ \ '_ ` _ \ / _ \
-  "    | |  | | | |  __/ | | | | |  __/
-  "    |_|  |_| |_|\___|_| |_| |_|\___|
-  "
-  silent! colorscheme dracula
 
   """""""""""""""""""""""""
   " Plugins configuration "
