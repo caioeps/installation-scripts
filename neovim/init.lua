@@ -57,7 +57,7 @@ use {
     {'hrsh7th/nvim-cmp'},
     {'hrsh7th/cmp-nvim-lsp'},
     {'nvim-lua/plenary.nvim'}, -- dependency for null-ls
-    -- {'L3MON4D3/LuaSnip'}
+    {'L3MON4D3/LuaSnip'},
   },
   config = function()
     -- require("mason").setup()
@@ -118,13 +118,16 @@ use {
       capabilities = capabilities
     }
 
+    local luasnip = require 'luasnip'
+
     local cmp = require('cmp')
     cmp.setup {
-      -- snippet = {
-      --   expand = function(args)
-      --     luasnip.lsp_expand(args.body)
-      --   end,
-      -- },
+      snippet = {
+        expand = function(args)
+          -- noop
+          luasnip.lsp_expand(args.body)
+        end,
+      },
       mapping = cmp.mapping.preset.insert({
         ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
         ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
@@ -361,7 +364,15 @@ use {
     config = function()
       vim.cmd [[
         let test#strategy = "neovim"
-        let test#neovim#term_position = "belowright"
+        "let test#neovim#term_position = "vert botright"
+        let test#neovim#term_position = "botright"
+        let test#neovim#start_normal = 1
+
+        nmap <silent> <space>t :TestNearest<CR>
+        nmap <silent> <space>T :TestFile<CR>
+        nmap <silent> <space>a :TestSuite<CR>
+        nmap <silent> <space>l :TestLast<CR>
+        nmap <silent> <space>g :TestVisit<CR>
 
         nmap <silent> <leader>t :TestNearest<CR>
         nmap <silent> <leader>T :TestFile<CR>
@@ -396,7 +407,8 @@ use {
     },
     config = function()
       require('git-conflict').setup()
-      vim.keymap.set('n', '<leader>gs', ':vertical leftabove Git<CR>:vertical resize 90<CR>')
+      vim.keymap.set('n', 'gs', ':vertical leftabove Git<CR>:vertical resize 90<CR>')
+      vim.keymap.set({'n', 'v'}, 'gb', ':G blame<CR>')
     end
   }
 
@@ -438,9 +450,26 @@ use {
     end
   }
 
-  -- use {'dracula/vim', config = function()
-  --   vim.cmd "silent! colorscheme dracula"
-  -- end}
+
+  -- Database
+  use {
+    "tpope/vim-dadbod",
+    requires = {
+      "kristijanhusak/vim-dadbod-ui",
+      "kristijanhusak/vim-dadbod-completion",
+    },
+    config = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+
+      vim.api.nvim_exec(
+      [[
+        autocmd FileType sql setlocal omnifunc=vim_dadbod_completion#omni
+        autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })
+      ]],
+      false
+      )
+    end
+  }
 
   if packer_bootstrap then
     require('packer').sync()
@@ -463,9 +492,6 @@ vim.cmd [[
 --            __/ |                 | |   | |             __/ |
 --           |___/                  |_|   |_|            |___/
 vim.cmd [[
-  nnoremap <Leader>hh :NvimTreeToggle<CR>
-  nnoremap <Leader>hf :NvimTreeFindFile<CR>
-
   let tp=$TERM_PROGRAM
   if tp == 'Apple_Terminal'
     :" map Mac OS X Terminal.app
